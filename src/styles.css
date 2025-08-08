@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+   font-family: 'Montserrat', sans-serif;
+}
+.footer-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: #303E2D !important;
+  color: white !important;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+}
+
+
+

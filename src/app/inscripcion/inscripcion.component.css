@@ -1,0 +1,100 @@
+
+.formulario-inscripcion {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: 'Monserrat', sans-serif;
+}
+.boton{
+
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 240px;
+}
+
+.espacio{
+margin-bottom:10px ;
+padding-bottom: 0px;
+ line-height: 1;
+}
+.datitos {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: -10px;
+}
+
+h3 {
+  color: #555;
+  margin-bottom: -10px;
+  font-size: 20px;
+}
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+mat-form-field {
+  flex: 1;
+  min-width: 240px;
+}
+
+@media (max-width: 768px) {
+  .formulario-inscripcion {
+    padding: 10px;
+  }
+
+  .fila {
+    flex-direction: column;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+.contenedor-principal {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.boton-principal {
+  background-color: #7A112D !important; /* color vino */
+  color: white !important;
+  font-size: 14px;
+  padding: 6px 18px;
+  border-radius: 6px;
+  min-width: unset;
+  max-width: 200px;
+}
+
+/* Botón editar alineado a la derecha */
+.contenedor-editar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.boton-editar {
+  background-color: #6c757d !important; /* gris oscuro */
+  color: white !important;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  min-width: unset;
+}
+

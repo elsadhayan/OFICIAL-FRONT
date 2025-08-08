@@ -1,0 +1,71 @@
+
+.nosotros-container {
+  font-family: 'Montserrat', sans-serif;
+  color: #303e2d;
+  text-align: center;
+  padding: 0;
+}
+
+.banner-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.quienes-somos {
+  padding: 40px 20px;
+}
+
+.quienes-somos h2 {
+  color: #a01350;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.mision-vision-valores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 20px;
+  background-color: #fafafa;
+}
+
+.mision-vision-valores .bloque {
+  max-width: 300px;
+  text-align: center;
+}
+
+.mision-vision-valores h3 {
+  color: #a01350;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.equipo-trabajo {
+  padding: 40px 20px;
+}
+
+.equipo-trabajo h3 {
+  color: #a01350;
+  margin-bottom: 20px;
+}
+
+.equipo-trabajo img {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .mision-vision-valores {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mision-vision-valores .bloque {
+    max-width: 90%;
+  }
+}

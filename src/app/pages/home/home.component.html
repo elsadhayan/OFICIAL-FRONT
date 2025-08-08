@@ -1,0 +1,20 @@
+<ngx-slick-carousel class="carrusel" [config]="slideConfig">
+  <div ngxSlickItem *ngFor="let img of imagenes" class="slide">
+    <img [src]="img" alt="Carrusel" />
+  </div>
+</ngx-slick-carousel>
+
+<h2 class="titulo-noticias">NOTICIAS</h2>
+<button class="btn btn-success" [routerLink]="['/ping-laravel']">
+  Verificar conexión con Laravel
+</button>
+
+
+<div class="card-container">
+  <mat-card class="noticia-card" *ngFor="let noticia of noticias">
+    <img mat-card-image [src]="noticia.imagen" alt="Imagen noticia" />
+    <mat-card-content>
+      <p>{{ noticia.descripcion }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

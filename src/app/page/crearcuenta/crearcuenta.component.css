@@ -1,0 +1,111 @@
+.contenedor-login {
+  display: flex;
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.lado-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.logo-huiztli {
+  max-width: 60%;
+  height: auto;
+}
+
+.lado-formulario {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdfdfd;
+}
+
+.formulario-login {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 0px;
+   margin: 4px 0 0 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+mat-form-field {
+  width: 100%;
+}
+
+.btn-login {
+  background-color: #CBBF9E;
+  color: #303E2D;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-login:hover {
+  background-color: #b0a580;
+}
+
+.bienvenida {
+  color: #b0a580;
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+
+}
+
+.registro-link {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.registro-link a {
+  color: #A71D31;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .contenedor-login {
+    flex-direction: column;
+  }
+
+  .lado-logo {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0;
+    height: 30vh;
+  }
+
+  .logo-huiztli {
+    max-width: 40%;
+  }
+
+  .lado-formulario {
+    height: auto;
+    padding: 20px 16px;
+  }
+
+  .formulario-login {
+    box-shadow: none;
+    padding: 20px 10px;
+    width: 100%;
+    max-width: none;
+  }
+}
+.campos{
+  color: #CBBF9E;
+}
+

@@ -1,0 +1,402 @@
+<form [formGroup]="inscripcionForm" (ngSubmit)="onSubmit()" class="formulario-inscripcion">
+  <!-- DATOS PERSONALES DEL ALUMNO -->
+<h3>TALLER CULTURAL</h3>
+<br>
+<div class="campo">
+  <p class="espacio">Seleccione el taller al cual se quiere inscribir</p>
+
+  <mat-form-field appearance="fill" color="primary" class="full-width">
+    <mat-label>Taller</mat-label>
+    <mat-select formControlName="taller_id" required>
+      <mat-option [value]="1">Taller de guitarra</mat-option>
+      <mat-option [value]="2">Taller de dibujo infantil</mat-option>
+      <mat-option [value]="3">Taller de música y solfeo</mat-option>
+      <mat-option [value]="4">Taller de fotografía</mat-option>
+      <mat-option [value]="5">Taller de danza folclórica</mat-option>
+      <mat-option [value]="6">Taller de ballet clásico</mat-option>
+      <mat-option [value]="7">Taller de decoración en cerámica</mat-option>
+      <mat-option [value]="8">Taller de marimba</mat-option>
+      <mat-option [value]="9">Taller de dibujo y pintura</mat-option>
+    </mat-select>
+
+    <!-- 🔴 Aquí se muestra el error cuando no se selecciona nada -->
+    <mat-error *ngIf="inscripcionForm.get('taller_id')?.hasError('required') && inscripcionForm.get('taller_id')?.touched">
+      ⚠️ Este campo es obligatorio.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+  <h3>DATOS PERSONALES DEL ALUMNO</h3>
+<br>
+
+<div class="fila">
+  <!-- Apellido paterno -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Apellido paterno</mat-label>
+      <input matInput formControlName="apellido_paterno">
+      <mat-error *ngIf="inscripcionForm.get('apellido_paterno')?.hasError('required') && inscripcionForm.get('apellido_paterno')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('apellido_paterno')?.hasError('pattern') && inscripcionForm.get('apellido_paterno')?.touched">
+        ⚠️ Solo se permiten letras y espacios.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Apellido materno -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Apellido materno</mat-label>
+      <input matInput formControlName="apellido_materno">
+      <mat-error *ngIf="inscripcionForm.get('apellido_materno')?.hasError('required') && inscripcionForm.get('apellido_materno')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('apellido_materno')?.hasError('pattern') && inscripcionForm.get('apellido_materno')?.touched">
+        ⚠️ Solo se permiten letras y espacios.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Nombres -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre(s)</mat-label>
+      <input matInput formControlName="nombres">
+      <mat-error *ngIf="inscripcionForm.get('nombres')?.hasError('required') && inscripcionForm.get('nombres')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('nombres')?.hasError('pattern') && inscripcionForm.get('nombres')?.touched">
+        ⚠️ Solo se permiten letras y espacios.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Fecha de nacimiento -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha_nacimiento">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="inscripcionForm.get('fecha_nacimiento')?.hasError('required') && inscripcionForm.get('fecha_nacimiento')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+<!-- Edad -->
+<div class="campo">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Edad</mat-label>
+    <mat-select formControlName="edad">
+      <mat-option *ngFor="let e of edad" [value]="e">{{ e }}</mat-option>
+    </mat-select>
+
+    <!-- Campo obligatorio -->
+    <mat-error *ngIf="inscripcionForm.get('edad')?.hasError('required') && inscripcionForm.get('edad')?.touched">
+      ⚠️ Este campo es obligatorio.
+    </mat-error>
+
+    <!-- Edad fuera del rango -->
+    <mat-error *ngIf="edadInvalida && inscripcionForm.get('edad')?.touched">
+      ⚠️ La edad no es válida para el taller seleccionado.
+      <br />
+      <span *ngIf="edadMinima !== null && edadMaxima !== null">
+        Edad permitida: de {{ edadMinima }} a {{ edadMaxima }} años.
+      </span>
+      <span *ngIf="edadMinima !== null && edadMaxima === null">
+        Edad mínima permitida: {{ edadMinima }} años.
+      </span>
+    </mat-error>
+
+  </mat-form-field>
+</div>
+
+<br>
+  <!-- Sexo -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sexo</mat-label>
+      <mat-select formControlName="sexo">
+        <mat-option value="Femenino">Femenino</mat-option>
+        <mat-option value="Masculino">Masculino</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('sexo')?.hasError('required') && inscripcionForm.get('sexo')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Teléfono -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="numero_telefono">
+      <mat-error *ngIf="inscripcionForm.get('numero_telefono')?.hasError('required') && inscripcionForm.get('numero_telefono')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('numero_telefono')?.hasError('pattern') && inscripcionForm.get('numero_telefono')?.touched">
+        ⚠️ Debe ser un número de 10 dígitos.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Teléfono de casa (opcional, no se valida) -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono de casa</mat-label>
+      <input matInput formControlName="numero_casa">
+    </mat-form-field>
+  </div>
+</div>
+
+<h3>DATOS MÉDICOS DEL ALUMNO</h3>
+<br>
+
+<div class="fila">
+  <!-- Tipo de sangre -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de sangre</mat-label>
+      <mat-select formControlName="tipo_sangre">
+        <mat-option *ngFor="let tipo of tipo_sangre" [value]="tipo">{{ tipo }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('tipo_sangre')?.hasError('required') && inscripcionForm.get('tipo_sangre')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- ¿Alergia? -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>¿Alergia?</mat-label>
+      <mat-select formControlName="alergia">
+        <mat-option *ngFor="let a of alergia" [value]="a">{{ a }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('alergia')?.hasError('required') && inscripcionForm.get('alergia')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- Descripción de alergia (solo si selecciona 'Sí') -->
+<div class="fila" *ngIf="inscripcionForm.get('alergia')?.value === 'Si'">
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción de alergia</mat-label>
+      <input matInput formControlName="alergia_descripcion">
+      <mat-error *ngIf="inscripcionForm.get('alergia_descripcion')?.hasError('required') && inscripcionForm.get('alergia_descripcion')?.touched">
+        ⚠️ Este campo es obligatorio si tiene alergia.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+
+<div class="fila">
+  <!-- ¿Enfermedad crónica? -->
+  <div class="campo">
+   <mat-form-field appearance="outline" class="full-width">
+      <mat-label>¿Enfermedad crónica?</mat-label>
+      <mat-select formControlName="enfermedad_cronica">
+        <mat-option *ngFor="let e of enfermedades" [value]="e">{{ e }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('enfermedad_cronica')?.hasError('required') && inscripcionForm.get('enfermedad_cronica')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Descripción de enfermedad (opcional) -->
+  <div class="campo" *ngIf="inscripcionForm.get('enfermedad_cronica')?.value === 'Si'">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción de la enfermedad</mat-label>
+      <input matInput formControlName="enfermedad_descripcion">
+      <mat-error *ngIf="inscripcionForm.get('enfermedad_descripcion')?.hasError('required') && inscripcionForm.get('enfermedad_descripcion')?.touched">
+        ⚠️ Este campo es obligatorio si tiene enfermedad crónica.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Tutor de emergencia -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tutor de emergencia</mat-label>
+      <input matInput formControlName="tutor_emergencia">
+      <mat-error *ngIf="inscripcionForm.get('tutor_emergencia')?.hasError('required') && inscripcionForm.get('tutor_emergencia')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('tutor_emergencia')?.hasError('pattern') && inscripcionForm.get('tutor_emergencia')?.touched">
+        ⚠️ Solo se permiten letras y espacios.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Teléfono emergencia -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono emergencia</mat-label>
+      <input matInput formControlName="telefono_emergencia">
+      <mat-error *ngIf="inscripcionForm.get('telefono_emergencia')?.hasError('required') && inscripcionForm.get('telefono_emergencia')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('telefono_emergencia')?.hasError('pattern') && inscripcionForm.get('telefono_emergencia')?.touched">
+        ⚠️ Debe ser un número de 10 dígitos.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+  <h3>DATOS ACADÉMICOS DEL ALUMNO</h3>
+<br>
+
+<div class="fila">
+  <!-- ¿Estudia? -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>¿Estudia?</mat-label>
+      <mat-select formControlName="estudio_alumno">
+        <mat-option *ngFor="let e of estudios" [value]="e">{{ e }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('estudio_alumno')?.hasError('required') && inscripcionForm.get('estudio_alumno')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Grado de estudio -->
+   <div class="campo" *ngIf="inscripcionForm.get('estudio_alumno')?.value === 'Si'">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Grado de estudio</mat-label>
+      <input matInput formControlName="grado_estudio">
+      <mat-error *ngIf="inscripcionForm.get('grado_estudio')?.hasError('required') && inscripcionForm.get('grado_estudio')?.touched">
+        ⚠️ Este campo es obligatorio si estudia.
+      </mat-error>
+      <mat-error *ngIf="inscripcionForm.get('grado_estudio')?.hasError('pattern') && inscripcionForm.get('grado_estudio')?.touched">
+        ⚠️ Solo se permiten letras y números.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Institución educativa -->
+  <div class="campo" *ngIf="inscripcionForm.get('estudio_alumno')?.value === 'Si'">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Institución educativa</mat-label>
+      <mat-select formControlName="institucion_educativa">
+        <mat-option *ngFor="let escuela of escuelas" [value]="escuela">{{ escuela }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('institucion_educativa')?.hasError('required') && inscripcionForm.get('institucion_educativa')?.touched">
+        ⚠️ Este campo es obligatorio si estudia.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Otra escuela -->
+ <div class="campo" *ngIf="inscripcionForm.get('estudio_alumno')?.value === 'Si'">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Otra escuela</mat-label>
+    <input matInput formControlName="escuela_nueva">
+  </mat-form-field>
+</div>
+
+</div>
+
+<!-- Estado -->
+<div *ngIf="inscripcionForm.get('estudio_alumno')?.value === 'Si'">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="estado">
+      <mat-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="inscripcionForm.get('estado')?.hasError('required') && inscripcionForm.get('estado')?.touched">
+      ⚠️ Este campo es obligatorio si estudia.
+    </mat-error>
+  </mat-form-field>
+</div>
+<h3>DATOS DEL TUTOR O RESPONSABLE</h3>
+<br>
+
+<div class="fila">
+  <!-- Apellido paterno -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Apellido paterno</mat-label>
+      <input matInput formControlName="apellido_paterno_tutor">
+    </mat-form-field>
+  </div>
+
+  <!-- Apellido materno -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Apellido materno</mat-label>
+      <input matInput formControlName="apellido_materno_tutor">
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Nombre(s) -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre(s)</mat-label>
+      <input matInput formControlName="nombres_tutor">
+    </mat-form-field>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="numero_telefonico">
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="fila">
+  <!-- Correo -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="correo" type="email">
+    </mat-form-field>
+  </div>
+
+  <!-- Domicilio -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Domicilio</mat-label>
+      <input matInput formControlName="domicilio">
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- Mostrar botón Editar solo si es reinscripción y el formulario está bloqueado -->
+<div *ngIf="tipoPago === 'reinscripción' && formularioBloqueado" class="contenedor-editar">
+  <button mat-raised-button type="button" class="boton-editar" (click)="habilitarEdicion()">
+    ✏️ Editar datos
+  </button>
+</div>
+
+<!-- Botón de enviar / actualizar -->
+<div class="contenedor-principal">
+  <button type="submit" mat-raised-button class="boton-principal" [disabled]="formularioBloqueado">
+    {{ tipoPago === 'reinscripción' ? 'Actualizar datos' : 'Enviar' }}
+  </button>
+</div>
+
+
+
+</form>

@@ -1,0 +1,70 @@
+<div class="contenedor-login">
+  <div class="lado-logo">
+    <img src="assets/Verde.png" alt="Logotipo" class="logo-huiztli" />
+  </div>
+
+  <div class="lado-formulario">
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="formulario-login">
+      <h5 class="bienvenida">Bienvenido</h5>
+      <h2>Crear Cuenta</h2>
+      <mat-form-field appearance="outline">
+
+      <mat-label class="campos">Tipo de usuario</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="Usuario">Usuario</mat-option>
+         <mat-option value="Director">Director</mat-option>
+          <mat-option value="Maestro">Instructor</mat-option>
+           <mat-option value="Administrador">Administrador</mat-option>
+
+      </mat-select>
+      <mat-error *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
+    Rol requerido.
+  </mat-error>
+      </mat-form-field>
+
+      <p>Ingresa tu CURP</p>
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label class="campos">CURP</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput formControlName="curp" maxlength="18" />
+        <mat-error *ngIf="registerForm.get('curp')?.invalid && registerForm.get('curp')?.touched">
+          CURP requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <p>Ingresa tu Contraseña</p>
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label class="campos">Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput type="password" formControlName="contrasena" />
+        <mat-error *ngIf="registerForm.get('contrasena')?.invalid && registerForm.get('contrasena')?.touched">
+          Contraseña requerida.
+        </mat-error>
+      </mat-form-field>
+
+      <p>Confirma tu Contraseña</p>
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label class="campos">Confirmar Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput type="password" formControlName="confirmarContrasena" />
+        <mat-error *ngIf="registerForm.get('confirmarContrasena')?.invalid && registerForm.get('confirmarContrasena')?.touched">
+          Confirmación requerida.
+        </mat-error>
+        <mat-error *ngIf="registerForm.value.contrasena !== registerForm.value.confirmarContrasena && registerForm.get('confirmarContrasena')?.touched">
+          Las contraseñas no coinciden.
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <button mat-raised-button class="btn-login" color="primary" type="submit">
+        Crear Cuenta
+      </button>
+
+      <p class="registro-link">
+        ¿Ya tienes cuenta?
+        <a routerLink="login" >Iniciar sesión</a>
+      </p>
+    </form>
+  </div>
+</div>

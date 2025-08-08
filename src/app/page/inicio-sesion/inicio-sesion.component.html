@@ -1,0 +1,38 @@
+
+<div class="contenedor-login">
+  <div class="lado-logo">
+    <img src="assets/Verde.png" alt="Logotipo" class="logo-huiztli" />
+  </div>
+
+  <div class="lado-formulario">
+    <form class="formulario-login" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <h5 class="bienvenida">Bienvenido</h5>
+      <h2>Iniciar sesión</h2>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="campos">CURP</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput formControlName="curp" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="campos">Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput type="password" formControlName="contrasena" />
+        <button mat-icon-button matSuffix type="button" tabindex="-1">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-login" type="submit">Iniciar sesión</button>
+
+      <p class="registro-link">
+        ¿No tienes cuenta? <a href="/registro">Crear Cuenta</a>
+      </p>
+    </form>
+  </div>
+</div>
+<button mat-stroked-button type="button" (click)="probarConexion()" class="btn-prueba-conexion">
+  Probar conexión con el backend
+</button>
+

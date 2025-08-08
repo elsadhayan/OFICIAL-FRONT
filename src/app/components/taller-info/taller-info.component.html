@@ -1,0 +1,35 @@
+<div class="taller-info-container">
+  <img [src]="imagen" alt="imagen taller" class="taller-banner-img" />
+
+  <h2 class="titulo">{{ titulo }}</h2>
+
+  <div class="contenido">
+    <div class="proposito">
+      <div class="subtitulo">PROPÓSITO</div>
+      <p>{{ descripcion }}</p>
+    </div>
+
+    <div class="instructor-info">
+      <div class="subtitulo rosa">INSTRUCTOR</div>
+      <p><strong>Nombre:</strong> {{ instructor }}</p>
+
+    <div class="foto-instructor" *ngIf="imagenInstructor">
+  <img [src]="imagenInstructor" alt="Foto del instructor">
+</div>
+
+
+    </div>
+  </div>
+
+  <div class="horario-section">
+    <div class="subtitulo">HORARIOS</div>
+    <table class="horario">
+      <tr>
+        <th *ngFor="let dia of horarios[0]">{{ dia }}</th>
+      </tr>
+      <tr>
+        <td *ngFor="let hora of horarios[1]">{{ hora }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
