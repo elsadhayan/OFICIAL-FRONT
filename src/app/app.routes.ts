@@ -8,7 +8,7 @@ import { GestionarTalleresComponent } from './admin/gestionar-talleres/gestionar
 import { AlumnosComponent } from './instructor/alumnos/alumnos/alumnos.component';
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { authGuard } from './guards/auth.guard'; // ✅ ruta correcta
-
+import { MisPagosComponent } from './features/pagos/mis-pagos/mis-pagos.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -54,6 +54,7 @@ export const routes: Routes = [
   path:'talleres/dibujo-pintura',loadComponent:()=>import('./pages/talleres/dibujo-pintura/dibujo-pintura.component').then(m =>m.DibujoPinturaComponent)
 
 },
+ { path: 'mis-pagos', component: MisPagosComponent },
   {
     path: 'admin', component: GestionarTalleresComponent
   },
@@ -69,9 +70,12 @@ export const routes: Routes = [
 },
 
   {
-    path:'registro/estatus-inscripciones',loadComponent:()=>import('./pages/registro-inscrp/estatus-inscripciones/estatus-inscripciones.component').then(m=>m.EstatusInscripcionesComponent)
-
-  },
+  path: 'registro/estatus-inscripciones',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./pages/registro-inscrp/estatus-inscripciones/estatus-inscripciones.component')
+      .then(m => m.EstatusInscripcionesComponent)
+},
  {
   path: 'registro/reinscripciones',
   loadComponent: () =>
@@ -83,14 +87,12 @@ export const routes: Routes = [
 },
 
   {
-    path:'registro/estatus-reinscripciones',loadComponent:()=>import('./pages/registro-inscrp/estatus-reinscripciones/estatus-reinscripciones.component').then(m=>m.EstatusReinscripcionesComponent)
-
-
-  }
-
-
-
-
+  path: 'registro/estatus-reinscripciones',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./pages/registro-inscrp/estatus-reinscripciones/estatus-reinscripciones.component')
+      .then(m => m.EstatusReinscripcionesComponent)
+},
 
 
 ];

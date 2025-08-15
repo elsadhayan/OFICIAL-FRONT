@@ -1,17 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+// src/app/guards/unsaved-changes.guard.ts
 import { CanDeactivateFn } from '@angular/router';
 
-import { unsavedChangesGuard } from './unsaved-changes.guard';
+export interface CanExit {
+  canDeactivate: () => boolean;   // El componente decide si se puede salir
+}
 
-describe('unsavedChangesGuard', () => {
-  const executeGuard: CanDeactivateFn<unknown> = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => unsavedChangesGuard(...guardParameters));
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
-
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
-  });
-});
+export const unsavedChangesGuard: CanDeactivateFn<CanExit> = (component) => {
+  return component?.canDeactivate ? component.canDeactivate() : true;
+};

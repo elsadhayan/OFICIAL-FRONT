@@ -1,3 +1,22 @@
-<br>
 <h3 style="text-align: center; color: black;">FORMATO DE REINSCRIPCION</h3>
-<app-inscripcion></app-inscripcion>
+
+<!-- Selector de alumno -->
+<div class="selector-alumno">
+  <mat-form-field appearance="outline">
+    <mat-label>Selecciona al alumno</mat-label>
+    <mat-select [(ngModel)]="selectedAlumnoId" (selectionChange)="cargarAlumnoSeleccionado()">
+      <mat-option *ngFor="let a of alumnos" [value]="a.id">
+        {{ a.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-stroked-button color="primary"
+          (click)="cargarAlumnoSeleccionado()"
+          [disabled]="!selectedAlumnoId">
+    Cargar datos del alumno
+  </button>
+</div>
+
+<!-- Pasamos el alumnoId al componente de inscripción -->
+<app-inscripcion [alumnoId]="selectedAlumnoId"></app-inscripcion>

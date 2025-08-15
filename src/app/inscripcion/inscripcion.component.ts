@@ -12,6 +12,8 @@ import { InscripcionService } from '../services/inscripcion.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CanExit } from '../guards/unsaved-changes.guard';
 import { OnInit } from '@angular/core';
+import { Input } from '@angular/core';
+
 @Component({
   standalone: true,
   selector: 'app-inscripcion',
@@ -24,28 +26,29 @@ import { OnInit } from '@angular/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
   ],
   templateUrl: './inscripcion.component.html',
   styleUrl: './inscripcion.component.css'
 })
 export class InscripcionComponent implements OnInit, CanExit {
+  formularioBloqueado: boolean = false; // ✅ nuevo
+
   canExit(): boolean {
     return true;
   }
 
   canDeactivate(): boolean {
-  return this.confirmarSalida(); // Usa el método de confirmación que definimos antes
-}
-confirmarSalida(): boolean {
-  const confirmacion = window.confirm('⚠️ ¿Estás segura de que quieres salir de este apartado? Se cerrará tu sesión.');
-  if (confirmacion) {
-    localStorage.removeItem('token');     // Cambia esto si tu token se guarda con otro nombre
-    localStorage.removeItem('usuario');   // Y esto también si tienes otro nombre de clave
+    return this.confirmarSalida();
   }
-  return confirmacion;
-}
 
+  confirmarSalida(): boolean {
+    const confirmacion = window.confirm('⚠️ ¿Estás segura de que quieres salir de este apartado? Se cerrará tu sesión.');
+    if (confirmacion) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+    }
+    return confirmacion;
+  }
 
   inscripcionForm: FormGroup;
   edad: number[] = Array.from({ length: 86 }, (_, i) => i + 5);
@@ -81,7 +84,12 @@ confirmarSalida(): boolean {
   edadMaxima: number | null = null;
   edadInvalida: boolean = false;
 
-  constructor(private fb: FormBuilder, private inscripcionService: InscripcionService, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private inscripcionService: InscripcionService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     const usuarioId = usuario.id || null;
 
@@ -122,38 +130,37 @@ confirmarSalida(): boolean {
       apellido_materno_tutor: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁÉÍÓÚáéíóúñÑ\\s]+$')]],
       nombres_tutor: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁÉÍÓÚáéíóúñÑ\\s]+$')]],
       numero_telefonico: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      correo: ['',],
+      correo: [''],
       domicilio: ['', Validators.required],
     });
   }
-  formularioBloqueado: boolean = false;
 
-habilitarEdicion() {
-  this.formularioBloqueado = false;
-  this.inscripcionForm.enable();
-}
-
+  habilitarEdicion(): void {
+    this.formularioBloqueado = false;
+    this.inscripcionForm.enable();
+  }
 
   ngOnInit(): void {
     const ruta = this.router.url;
-    this.tipoPago = ruta.includes('reinscripcion') ? 'reinscripción' : 'inscripción';
-    if (this.tipoPago === 'reinscripción') {
-  this.obtenerDatosPrevios();
-  this.formularioBloqueado = true;
-  this.inscripcionForm.disable();
-}
-    if (this.router.url.includes('reinscripcion')) {
-  this.inscripcionService.obtenerDatosUsuario().subscribe({
-    next: (data: any) => {
-      this.inscripcionForm.patchValue(data); // Cargar los datos previos
-      this.inscripcionForm.disable();        // Desactivar todos los campos al inicio
-    },
-    error: (err) => {
-      console.warn('⚠️ No se encontraron datos previos para reinscripción:', err);
-    }
-  });
-}
+    this.tipoPago = ruta.includes('reinscripciones') ? 'reinscripción' : 'inscripción';
 
+    if (this.tipoPago === 'reinscripción' && !this.alumnoId) {
+      this.obtenerDatosPrevios();
+      this.formularioBloqueado = true;
+      this.inscripcionForm.disable();
+    }
+
+    if (this.router.url.includes('reinscripcion')) {
+      this.inscripcionService.obtenerDatosUsuario().subscribe({
+        next: (data: any) => {
+          this.inscripcionForm.patchValue(data);
+          this.inscripcionForm.disable();
+        },
+        error: (err) => {
+          console.warn('⚠️ No se encontraron datos previos para reinscripción:', err);
+        }
+      });
+    }
 
     this.inscripcionForm.get('taller_id')?.valueChanges.subscribe(() => {
       this.validarEdadManual();
@@ -203,7 +210,6 @@ habilitarEdicion() {
         grado?.setValidators([Validators.required, Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚáéíóúñÑ\\s]+$')]);
         institucion?.setValidators([Validators.required]);
         estado?.setValidators([Validators.required]);
-
       } else {
         grado?.clearValidators();
         institucion?.clearValidators();
@@ -221,18 +227,18 @@ habilitarEdicion() {
       otraEscuela?.updateValueAndValidity();
     });
   }
-  obtenerDatosPrevios() {
-  this.inscripcionService.obtenerDatosUsuario().subscribe({
-    next: (data: any) => {
-      this.inscripcionForm.patchValue(data);
-      this.inscripcionForm.disable();
-    },
-    error: (err) => {
-      console.warn('⚠️ No se encontraron datos previos para reinscripción:', err);
-    }
-  });
-}
 
+  obtenerDatosPrevios() {
+    this.inscripcionService.obtenerDatosUsuario().subscribe({
+      next: (data: any) => {
+        this.inscripcionForm.patchValue(data);
+        this.inscripcionForm.disable();
+      },
+      error: (err) => {
+        console.warn('⚠️ No se encontraron datos previos para reinscripción:', err);
+      }
+    });
+  }
 
   validarEdadManual() {
     const edad = this.inscripcionForm.get('edad')?.value;
@@ -257,96 +263,101 @@ habilitarEdicion() {
     }
   }
 
+  onSubmit() {
+    if (this.inscripcionForm.invalid) {
+      this.marcarCamposComoTouched(this.inscripcionForm);
+      alert('❌ Hay campos incorrectos o vacíos. Verifica los campos resaltados en rojo.');
+      return;
+    }
 
+    if (this.edadInvalida) {
+      const edadMaxTexto = this.edadMaxima !== null ? this.edadMaxima : 'en adelante';
+      alert(`❌ La edad no es válida para el taller seleccionado.\nRango permitido: ${this.edadMinima} a ${edadMaxTexto} años.`);
+      return;
+    }
 
-onSubmit() {
-  if (this.inscripcionForm.invalid) {
-    this.marcarCamposComoTouched(this.inscripcionForm);
-    alert('❌ Hay campos incorrectos o vacíos. Verifica los campos resaltados en rojo.');
-    return;
-  }
+    const datos = { ...this.inscripcionForm.value };
+    delete datos.id;
 
-  if (this.edadInvalida) {
-    const edadMaxTexto = this.edadMaxima !== null ? this.edadMaxima : 'en adelante';
-    alert(`❌ La edad no es válida para el taller seleccionado.\nRango permitido: ${this.edadMinima} a ${edadMaxTexto} años.`);
-    return;
-  }
+    if (datos.fecha_nacimiento) {
+      const fecha = new Date(datos.fecha_nacimiento);
+      datos.fecha_nacimiento = fecha.toISOString().split('T')[0];
+    }
 
-  const datos = { ...this.inscripcionForm.value };
-  delete datos.id;
+    for (const key in datos) {
+      if (datos[key] === '' || datos[key] === null) {
+        delete datos[key];
+      }
+    }
 
-  if (datos.fecha_nacimiento) {
-    const fecha = new Date(datos.fecha_nacimiento);
-    datos.fecha_nacimiento = fecha.toISOString().split('T')[0];
-  }
+    const tallerSeleccionado = this.talleres.find(t => t.id === datos.taller_id);
+    if (tallerSeleccionado) {
+      datos.taller_cultural = tallerSeleccionado.nombre;
+    }
 
-  // Elimina campos vacíos
-  for (const key in datos) {
-    if (datos[key] === '' || datos[key] === null) {
-      delete datos[key];
+    if (this.router.url.includes('reinscripciones')) {
+      this.actualizarReinscripcion(datos);
+    } else {
+      this.inscripcionService.registrarInscripcion(datos).subscribe({
+        next: () => {
+          alert('✅ Inscripción registrada con éxito');
+          this.inscripcionForm.reset();
+          this.router.navigate(['/registro/estatus-inscripciones']);
+        },
+        error: (err) => {
+          console.error('❌ Error al registrar inscripción:', err);
+          if (err.status === 400 && err.error && err.error.mensaje) {
+            alert(err.error.mensaje);
+          } else {
+            alert('❌ Ocurrió un error al registrar la inscripción');
+          }
+        }
+      });
     }
   }
 
-  // ✅ Aquí agregamos el nombre del taller
-  const tallerSeleccionado = this.talleres.find(t => t.id === datos.taller_id);
-  if (tallerSeleccionado) {
-    datos.taller_cultural = tallerSeleccionado.nombre;
-  }
-
-  // ✅ Corrección: detectamos reinscripción correctamente
-  if (this.router.url.includes('reinscripciones')) {
-    this.actualizarReinscripcion(datos);
-  } else {
-    this.inscripcionService.registrarInscripcion(datos).subscribe({
-      next: () => {
-        alert('✅ Inscripción registrada con éxito');
-        this.inscripcionForm.reset();
-        this.router.navigate(['/registro/estatus-inscripciones']);
-      },
-      error: (err) => {
-        console.error('❌ Error al registrar inscripción:', err);
-        if (err.status === 400 && err.error && err.error.mensaje) {
-          alert(err.error.mensaje);
-        } else {
-          alert('❌ Ocurrió un error al registrar la inscripción');
-        }
-      }
-    });
-  }
-}
-
-// ✅ Este método debe ir fuera del onSubmit, pero dentro de la clase
   marcarCamposComoTouched(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(campo => {
       if (campo === 'escuela_nueva') {
-        return; // ❌ Este campo no debe marcarse como obligatorio
+        return;
       }
-
       const control = formGroup.get(campo);
-
       if (control instanceof FormControl) {
         control.markAsTouched();
       } else if (control instanceof FormGroup) {
-        this.marcarCamposComoTouched(control); // Por si hay grupos anidados
+        this.marcarCamposComoTouched(control);
       }
     });
   }
 
-actualizarReinscripcion(datos: any) {
-  this.inscripcionService.actualizarReinscripcion(datos).subscribe({
-    next: () => {
-      alert('✅ Reinscripción actualizada con éxito');
-      this.inscripcionForm.reset();
-      this.router.navigate(['/registro/estatus-reinscripciones']);
-    },
-    error: (err) => {
-      console.error('❌ Error al actualizar reinscripción:', err);
-      const mensaje = err.error?.mensaje || '❌ Ocurrió un error al actualizar la reinscripción';
-      alert(mensaje);
-    }
-  });
-}
+  actualizarReinscripcion(datos: any) {
+    this.inscripcionService.actualizarReinscripcion(datos).subscribe({
+      next: () => {
+        alert('✅ Reinscripción actualizada con éxito');
+        this.inscripcionForm.reset();
+        this.router.navigate(['/registro/estatus-reinscripciones']);
+      },
+      error: (err) => {
+        console.error('❌ Error al actualizar reinscripción:', err);
+        const mensaje = err.error?.mensaje || '❌ Ocurrió un error al actualizar la reinscripción';
+        alert(mensaje);
+      }
+    });
+  }
 
+  @Input() alumnoId: number | null = null;
 
-
+  cargarPorAlumnoId(alumnoId: number) {
+    this.inscripcionService.getFormularioPorAlumno(alumnoId).subscribe({
+      next: (data: any) => {
+        this.inscripcionForm.patchValue(data);
+        this.formularioBloqueado = true; // ✅ bloquea
+        this.inscripcionForm.disable();  // ✅ bloquea
+        this.tipoPago = 'reinscripción';
+      },
+      error: (err) => {
+        console.warn('⚠️ No se encontró info para ese alumno:', err);
+      }
+    });
+  }
 }

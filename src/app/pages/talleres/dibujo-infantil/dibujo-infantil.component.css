@@ -1,0 +1,4 @@
+.horario td {
+  white-space: pre-line; /* respeta \n como salto de línea */
+  line-height: 1.3;      /* se ve más compacto */
+}

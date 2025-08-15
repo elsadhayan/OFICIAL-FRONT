@@ -40,6 +40,17 @@ actualizarReinscripcion(data: any): Observable<any> {
 
   return this.http.put('http://127.0.0.1:8000/api/reinscripcion', data, { headers });
 }
+getAlumnosReinscripcion() {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  return this.http.get('http://127.0.0.1:8000/api/reinscripcion/alumnos', { headers });
+}
+
+getFormularioPorAlumno(alumnoId: number) {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  return this.http.get(`http://127.0.0.1:8000/api/reinscripcion/form/${alumnoId}`, { headers });
+}
 
 
 }

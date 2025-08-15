@@ -1,0 +1,4 @@
+.wrapper { padding: 16px; }
+.buscador { width: 100%; max-width: 520px; margin-bottom: 12px; }
+.tabla { width: 100%; }
+.loading { padding: 24px; text-align: center; opacity: 0.8; }

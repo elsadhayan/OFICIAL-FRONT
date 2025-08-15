@@ -1,0 +1,83 @@
+<div class="wrapper" *ngIf="!loading; else cargando">
+  <div style="display:flex; justify-content: flex-end; margin-bottom: 10px;">
+  <button mat-stroked-button color="warn" (click)="cerrarSesion()">
+    <mat-icon>logout</mat-icon> Cerrar sesión
+  </button>
+</div>
+
+  <mat-form-field class="buscador" appearance="outline">
+    <mat-label>Buscar pago</mat-label>
+    <input matInput placeholder="Folio, alumno, concepto, descripción…" (keyup)="aplicarFiltro($event)" />
+  </mat-form-field>
+
+
+
+  <!-- Selector Mensualidad -->
+  <div class="acciones-mispagos">
+    <mat-form-field appearance="outline">
+      <mat-label>Alumno (Mensualidad)</mat-label>
+      <mat-select [(ngModel)]="selectedAlumnoIdMensual">
+        <mat-option *ngFor="let a of alumnos" [value]="a.id">{{ a.nombre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="generarOrdenMensualidad()" [disabled]="!selectedAlumnoIdMensual">
+      <mat-icon>receipt</mat-icon> Generar orden de pago mensual
+    </button>
+  </div>
+
+  <!-- Tabla -->
+  <table mat-table [dataSource]="dataSource" class="tabla" matSort>
+    <ng-container matColumnDef="folio">
+      <th mat-header-cell *matHeaderCellDef>Folio</th>
+      <td mat-cell *matCellDef="let p">{{ p.folio }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="alumno_nombre">
+      <th mat-header-cell *matHeaderCellDef>Alumno</th>
+      <td mat-cell *matCellDef="let p">{{ p.alumno_nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="concepto">
+      <th mat-header-cell *matHeaderCellDef>Concepto</th>
+      <td mat-cell *matCellDef="let p">{{ p.concepto }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef>Descripción</th>
+      <td mat-cell *matCellDef="let p">{{ p.descripcion }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="monto">
+      <th mat-header-cell *matHeaderCellDef>Monto</th>
+      <td mat-cell *matCellDef="let p">${{ p.monto }} MXN</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let p">{{ p.estado }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fecha_emision">
+      <th mat-header-cell *matHeaderCellDef>Emisión</th>
+      <td mat-cell *matCellDef="let p">{{ p.fecha_emision }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let p">
+        <button mat-raised-button color="primary" (click)="descargar(p)" [disabled]="!p.pdf_url">
+          <mat-icon>download</mat-icon> Descargar PDF
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+
+
+<ng-template #cargando>
+  <div class="loading">Cargando pagos…</div>
+</ng-template>

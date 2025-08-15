@@ -13,16 +13,15 @@
       <div class="subtitulo rosa">INSTRUCTOR</div>
       <p><strong>Nombre:</strong> {{ instructor }}</p>
 
-    <div class="foto-instructor" *ngIf="imagenInstructor">
-  <img [src]="imagenInstructor" alt="Foto del instructor">
-</div>
-
-
+      <div class="foto-instructor" *ngIf="imagenInstructor">
+        <img [src]="imagenInstructor" alt="Foto del instructor" />
+      </div>
     </div>
   </div>
 
   <div class="horario-section">
     <div class="subtitulo">HORARIOS</div>
+    <p>Los horarios pueden cambiar en cada cuatrimestre se recomienda preguntar en las instalaciones de la institucion cultural, para mayor certeza.</p>
     <table class="horario">
       <tr>
         <th *ngFor="let dia of horarios[0]">{{ dia }}</th>

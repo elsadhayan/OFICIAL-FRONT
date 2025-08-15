@@ -4,46 +4,38 @@
 
   <!-- MENÚ DESKTOP -->
   <div class="navbar-links">
-    <a mat-button routerLink="/home" routerLinkActive="activo-link">Inicio</a>
+    <a mat-button routerLink="/home" routerLinkActive="activo-link">INICIO</a>
 
     <button mat-button [matMenuTriggerFor]="menuTalleres" class="boton-talleres">
       TALLERES <mat-icon>expand_more</mat-icon>
     </button>
-
     <mat-menu #menuTalleres="matMenu" class="custom-menu">
       <ng-container *ngFor="let taller of talleres">
         <button mat-menu-item [routerLink]="taller.ruta" routerLinkActive="activo-link">
-          <mat-icon>{{ taller.icono }}</mat-icon> <span>{{ taller.nombre }}</span>
+          <mat-icon>{{ taller.icono }}</mat-icon>
+          <span>{{ taller.nombre }}</span>
         </button>
         <mat-divider></mat-divider>
       </ng-container>
     </mat-menu>
 
-    <a mat-button routerLink="/nosotros" routerLinkActive="activo-link">Acerca de nosotros</a>
+    <a mat-button routerLink="/nosotros" routerLinkActive="activo-link">ACERCA DE NOSOTROS</a>
 
     <!-- INSCRIPCIONES -->
     <button mat-button [matMenuTriggerFor]="menuInscripciones" class="boton-talleres">
       INSCRIPCIONES <mat-icon>expand_more</mat-icon>
     </button>
-
     <mat-menu #menuInscripciones="matMenu" class="custom-menu">
       <mat-divider></mat-divider>
-
-      <!-- Periodo cuatrimestral -->
-      <button mat-menu-item [routerLink]="'registro/inscripciones'">
+      <button mat-menu-item routerLink="/registro/inscripciones">
         <mat-icon>event</mat-icon>
         <span>Periodo cuatrimestral</span>
       </button>
-
-      <!-- Estado cuatrimestral -->
-      <button mat-menu-item [routerLink]="'/registro/estatus-inscripciones'">
+      <button mat-menu-item routerLink="/registro/estatus-inscripciones">
         <mat-icon>article</mat-icon>
         <span>Estado</span>
       </button>
-
       <mat-divider></mat-divider>
-
-      <!-- Reinscripciones -->
       <button mat-menu-item [matMenuTriggerFor]="submenuReinscripciones">
         <mat-icon>loop</mat-icon>
         <span>Reinscripciones</span>
@@ -52,21 +44,23 @@
 
     <!-- Submenú Reinscripciones -->
     <mat-menu #submenuReinscripciones="matMenu" class="custom-menu">
-      <!-- Periodo cuatrimestral -->
-      <button mat-menu-item [routerLink]="'/registro/reinscripciones'">
+      <button mat-menu-item routerLink="/registro/reinscripciones">
         <mat-icon>event</mat-icon>
         <span>Periodo cuatrimestral</span>
       </button>
-
-      <!-- Estado cuatrimestral de reinscripciones -->
-      <button mat-menu-item [routerLink]="'/registro/estatus-reinscripciones'">
+      <button mat-menu-item routerLink="/registro/estatus-reinscripciones">
         <mat-icon>article</mat-icon>
         <span>Estado</span>
       </button>
     </mat-menu>
 
-    <a mat-button routerLink="/registro" routerLinkActive="activo-link">Crear cuenta</a>
-    <a mat-button routerLink="/login" routerLinkActive="activo-link">Iniciar sesión</a>
+    <a mat-button routerLink="/registro" routerLinkActive="activo-link">CREAR CUENTA</a>
+    <a mat-button routerLink="/login" routerLinkActive="activo-link">INICIAR SESIÓN</a>
+
+    <!-- MIS PAGOS (solo logeado) -->
+    <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-pagos" routerLinkActive="activo-link">
+      MIS PAGOS
+    </a>
   </div>
 
   <mat-icon class="icono-menu" (click)="toggleMenu()">menu</mat-icon>
@@ -74,7 +68,7 @@
 
 <!-- MENÚ MOBILE -->
 <div *ngIf="menuActivo" class="mobile-menu">
-  <a mat-button routerLink="/home" (click)="toggleMenu()">Inicio</a>
+  <a mat-button routerLink="/home" (click)="toggleMenu()">INICIO</a>
 
   <button mat-button [matMenuTriggerFor]="menuTalleres" class="boton-talleres">
     TALLERES <mat-icon>expand_more</mat-icon>
@@ -84,7 +78,10 @@
     INSCRIPCIONES <mat-icon>expand_more</mat-icon>
   </button>
 
-  <a mat-button routerLink="/nosotros" (click)="toggleMenu()">Acerca de nosotros</a>
-  <a mat-button routerLink="/registro" (click)="toggleMenu()">Crear cuenta</a>
-  <a mat-button routerLink="/login" (click)="toggleMenu()">Iniciar sesión</a>
+  <a mat-button routerLink="/nosotros" (click)="toggleMenu()">ACERCA DE NOSOTROS</a>
+  <a mat-button routerLink="/registro" (click)="toggleMenu()">CREAR CUENTA</a>
+  <a mat-button routerLink="/login" (click)="toggleMenu()">INICIAR SESIÓN</a>
+
+  <!-- MIS PAGOS (solo logeado) -->
+  <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-pagos" (click)="toggleMenu()">MIS PAGOS</a>
 </div>

@@ -42,9 +42,30 @@
   margin-bottom: 35px;
 }
 
-button {
-  padding: 10px 25px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
+.acciones{
+  display:flex; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap;
 }
+
+/* mismo tamaño para ambos */
+.btn-pagos, .btn-logout{
+  width: 200px;           /* ← ajusta si quieres más/menos ancho */
+  height: 44px;           /* alto igual para ambos */
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* colores */
+.btn-pagos{
+  background:#1976d2;     /* azul */
+  color:#fff;
+  border:1px solid #1976d2;
+}
+.btn-pagos:hover{ background:#125aa3; border-color:#125aa3; }
+
+.btn-logout{
+  background:#ffffff;     /* blanco con borde rojo */
+  color:#d32f2f;
+  border:1px solid #d32f2f;
+}
+.btn-logout:hover{ background:#d32f2f; color:#fff; }
+

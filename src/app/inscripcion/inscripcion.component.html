@@ -19,7 +19,6 @@
       <mat-option [value]="9">Taller de dibujo y pintura</mat-option>
     </mat-select>
 
-    <!-- 🔴 Aquí se muestra el error cuando no se selecciona nada -->
     <mat-error *ngIf="inscripcionForm.get('taller_id')?.hasError('required') && inscripcionForm.get('taller_id')?.touched">
       ⚠️ Este campo es obligatorio.
     </mat-error>
@@ -201,7 +200,32 @@
   </div>
 </div>
 
+<!-- TRATAMIENTO MÉDICO -->
+<div class="fila">
+  <!-- ¿Tratamiento médico? -->
+  <div class="campo">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>¿Tratamiento médico?</mat-label>
+      <mat-select formControlName="tratamiento_medico">
+        <mat-option *ngFor="let t of tratamiento_medico" [value]="t">{{ t }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="inscripcionForm.get('tratamiento_medico')?.hasError('required') && inscripcionForm.get('tratamiento_medico')?.touched">
+        ⚠️ Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </div>
 
+  <!-- Descripción del tratamiento (solo si selecciona 'Sí') -->
+  <div class="campo" *ngIf="inscripcionForm.get('tratamiento_medico')?.value === 'Si'">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción del tratamiento</mat-label>
+      <input matInput formControlName="tratamiento_descripcion">
+      <mat-error *ngIf="inscripcionForm.get('tratamiento_descripcion')?.hasError('required') && inscripcionForm.get('tratamiento_descripcion')?.touched">
+        ⚠️ Este campo es obligatorio si tiene tratamiento médico.
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
 <div class="fila">
   <!-- ¿Enfermedad crónica? -->
   <div class="campo">
@@ -382,20 +406,32 @@
     </mat-form-field>
   </div>
 </div>
+<!-- Contenedor de botones -->
+<div class="boton">
+  <!-- Botón SOLO para desbloquear el formulario -->
+  <button
+    *ngIf="tipoPago === 'reinscripción'"
+    type="button"
+    class="boton-editar"
+    mat-raised-button
+    color="primary"
+    (click)="habilitarEdicion()">
+    Editar datos
+  </button>
 
-<!-- Mostrar botón Editar solo si es reinscripción y el formulario está bloqueado -->
-<div *ngIf="tipoPago === 'reinscripción' && formularioBloqueado" class="contenedor-editar">
-  <button mat-raised-button type="button" class="boton-editar" (click)="habilitarEdicion()">
-    ✏️ Editar datos
+  <!-- Botón que SÍ envía el formulario -->
+  <button
+    type="submit"
+    class="boton-principal"
+    mat-raised-button
+    color="accent">
+    {{ tipoPago === 'reinscripción' ? 'Actualizar datos' : 'Enviar datos' }}
   </button>
 </div>
 
-<!-- Botón de enviar / actualizar -->
-<div class="contenedor-principal">
-  <button type="submit" mat-raised-button class="boton-principal" [disabled]="formularioBloqueado">
-    {{ tipoPago === 'reinscripción' ? 'Actualizar datos' : 'Enviar' }}
-  </button>
-</div>
+
+
+
 
 
 

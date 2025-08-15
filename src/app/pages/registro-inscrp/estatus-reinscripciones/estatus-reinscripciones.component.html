@@ -1,6 +1,6 @@
 <div class="estatus-container">
   <div class="tarjeta">
-    <h2 class="titulo">Status de inscripción</h2>
+    <h2 class="titulo">Status de reinscripcion</h2>
 
     <p>
       ¡Gracias por tu interés en la <strong><em>Casa de la Cultura Huitztli</em></strong>!
@@ -17,10 +17,14 @@
     <p class="estado-texto"><strong>Estado</strong></p>
     <p class="estado-pendiente">PENDIENTE POR REVISAR</p>
 
-    <button mat-raised-button color="warn" (click)="confirmarCerrarSesion()">
-  <mat-icon>logout</mat-icon>
-  Cerrar sesión
-</button>
+<div class="acciones">
+  <button routerLink="/mis-pagos" class="btn btn-lg btn-pagos">
+    Ver mis pagos
+  </button>
+
+
+</div>
+
 
   </div>
 </div>

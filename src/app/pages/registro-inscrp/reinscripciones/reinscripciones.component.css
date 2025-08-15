@@ -1,0 +1,15 @@
+.selector-alumno {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 20px;
+}
+
+.selector-alumno mat-form-field {
+  min-width: 280px;
+}
+
+.selector-alumno button {
+  height: 56px; /* misma altura que el select */
+}

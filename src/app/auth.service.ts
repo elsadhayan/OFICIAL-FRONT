@@ -6,12 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://127.0.0.1:8000/api'; // Ajusta si tu backend usa otro puerto
-
+  private baseUrl = 'http://127.0.0.1:8000/api';
   constructor(private http: HttpClient) { }
 
-  // Ejemplo de petición GET a Laravel
-// Petición GET a Laravel para probar conexión
+
 pingLaravel(): Observable<any> {
   return this.http.get(`${this.baseUrl}/ping`);
 }

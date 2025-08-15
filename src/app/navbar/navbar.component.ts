@@ -38,7 +38,7 @@ export class NavbarComponent {
     { nombre: 'Danza Folclórica', ruta: '/talleres/danza-folclorica', icono: 'emoji_people' },
     { nombre: 'Ballet Clásico', ruta: '/talleres/ballet-clasico', icono: 'sports_gymnastics' },
     { nombre: 'Decoración en Cerámica', ruta: '/talleres/decoracionceramica', icono: 'filter_vintage' },
-    { nombre: 'Marimba', ruta: '/talleres/marimba', icono: 'queue_music' },
+    { nombre: 'Marimba', ruta: '/talleres/Marimba', icono: 'queue_music' },
     { nombre: 'Dibujo y Pintura', ruta: '/talleres/dibujo-pintura', icono: 'palette' },
   ];
   inscripciones = [
@@ -46,6 +46,10 @@ export class NavbarComponent {
   { nombre: 'Periodo cuatrimestral', ruta: '/inscripciones/cuatrimestral', icono: 'event' },
 
 ];
+isLoggedIn(): boolean {
+  return !!localStorage.getItem('token');
+}
+
 
 
 }

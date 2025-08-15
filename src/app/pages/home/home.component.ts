@@ -13,10 +13,10 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent {
   imagenes = [
-    'assets/ba1.png',
-    'assets/ba2.png',
-    'assets/ba3.png',
-    'assets/ba4.png'
+    'assets/carrusel 1.jpg',
+    'assets/carrusel 3.jpg',
+    'assets/carrusel 2.jpg',
+    'assets/carrusel 8.jpg'
   ];
 
 
@@ -31,28 +31,16 @@ export class HomeComponent {
 
   noticias = [
   {
-    imagen: 'assets/card.png',
-    descripcion: 'Evento cultural de danza tradicional'
+    imagen: 'assets/CARD1.jpg',
+    descripcion: '"El taller de dibujo y pintura es un espacio donde cada trazo y cada color se convierten en una forma de expresión personal. Más que aprender técnicas, se trata de descubrir que el arte no solo se ve, también se siente, y que en cada obra dejamos un pedacito de lo que somos."'
   },
   {
-    imagen: 'assets/card2.png',
-    descripcion: 'Exposición artística infantil'
+    imagen: 'assets/CARD4.jpg',
+    descripcion: '"La música es el eco del alma; un idioma sin fronteras que puede hablar de amor, dolor, esperanza y alegría sin pronunciar una sola palabra. Es el arte que nos recuerda que, sin importar de dónde venimos, todos podemos vibrar en la misma melodía."'
   },
    {
-    imagen: 'assets/card2.png',
-    descripcion: 'Exposición artística infantil'
-  },
-   {
-    imagen: 'assets/card2.png',
-    descripcion: 'Exposición artística infantil'
-  },
-   {
-    imagen: 'assets/card2.png',
-    descripcion: 'Exposición artística infantil'
-  },
-   {
-    imagen: 'assets/card2.png',
-    descripcion: 'Exposición artística infantil'
+    imagen: 'assets/CARD3.jpg',
+    descripcion: '"La marimba es más que un instrumento; es un puente entre nuestras raíces y el presente. En cada golpe de sus teclas resuena la historia, la alegría y el orgullo de nuestra tierra, recordándonos que la música también es identidad."'
   },
 
 

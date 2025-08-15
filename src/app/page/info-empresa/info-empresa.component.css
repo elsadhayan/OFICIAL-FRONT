@@ -4,11 +4,14 @@
   color: #303e2d;
   text-align: center;
   padding: 0;
+
 }
 
 .banner-img img {
   width: 100%;
-  height: auto;
+  height: 60vh;        /* móvil */
+  object-fit: cover;   /* llena sin deformar */
+  object-position: center;
   display: block;
 }
 
