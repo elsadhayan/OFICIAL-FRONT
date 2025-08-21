@@ -1,1 +1,41 @@
-<p>gestionar-talleres works!</p>
+<h1 style="text-align: center;">Bienvenido</h1>
+
+<div class="container p-3">
+  <h2 class="text-center" style="color:#D40840;">Alumnos</h2>
+
+  <div class="d-flex justify-content-between align-items-center"></div>
+
+  <table class="table  table-hover">
+    <thead class="table-info">
+      <tr>
+        <th>id_alumno</th>
+        <th>Apellido_Paterno</th>
+        <th>apellido_materno</th>
+        <th>Nombres</th>
+        <th>Edad</th>
+        <th>Mas</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alumno of alumnos">
+        <td>{{ alumno.id}}</td>
+        <td>{{ alumno.apellido_paterno }}</td>
+        <td>{{ alumno.apellido_materno }}</td>
+        <td>{{ alumno.nombres }}</td>
+        <td>{{ alumno.edad }}</td>
+        <td>
+          <button class="l" style="color: rgb(255, 174, 0);" aria-label="Ver más" (click)="verDetallesAlumno(alumno)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+        <td>
+          <button class="l" style="color: #fa0d0d;" aria-label="Eliminar" (click)="eliminarAlumno(alumno)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

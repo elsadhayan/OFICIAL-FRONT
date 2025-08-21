@@ -1,0 +1,58 @@
+<div class="contenedor-login">
+  <div class="lado-logo">
+    <img src="assets/Logocasa.png" alt="Logotipo" class="logo-huiztli" />
+  </div>
+
+  <div class="lado-formulario">
+    <form class="formulario-login" [formGroup]="form" (ngSubmit)="submit()">
+      <h5 class="bienvenida">¿Olvidaste tu contraseña?</h5>
+      <h2>Cambiar contraseña</h2>
+
+      <!-- CURP -->
+      <mat-form-field appearance="outline">
+        <mat-label class="campos">CURP</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput formControlName="curp" />
+        <mat-error *ngIf="form.get('curp')?.hasError('required')">Requerida</mat-error>
+        <mat-error *ngIf="form.get('curp')?.hasError('minlength') || form.get('curp')?.hasError('maxlength')">
+          Debe tener 18 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Nueva contraseña -->
+      <mat-form-field appearance="outline">
+        <mat-label class="campos">Nueva contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="new_password" />
+        <button mat-icon-button matSuffix type="button" tabindex="-1" (click)="hide2 = !hide2">
+          <mat-icon>{{ hide2 ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <mat-hint>Mínimo 8 caracteres</mat-hint>
+        <mat-error *ngIf="form.get('new_password')?.hasError('required')">Requerida</mat-error>
+        <mat-error *ngIf="form.get('new_password')?.hasError('minlength')">Mínimo 8</mat-error>
+      </mat-form-field>
+
+      <!-- Confirmar nueva contraseña -->
+      <mat-form-field appearance="outline">
+        <mat-label class="campos">Confirmar nueva contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput [type]="hide3 ? 'password' : 'text'" formControlName="new_password_confirmation" />
+        <button mat-icon-button matSuffix type="button" tabindex="-1" (click)="hide3 = !hide3">
+          <mat-icon>{{ hide3 ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('new_password_confirmation')?.hasError('required')">Requerida</mat-error>
+        <mat-error *ngIf="passwordsDoNotMatch">No coincide con la nueva contraseña</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-login" type="submit"
+              [disabled]="form.invalid || passwordsDoNotMatch || loading">
+        {{ loading ? 'Guardando…' : 'Cambiar contraseña' }}
+      </button>
+
+      <p class="registro-link">
+        ¿Ya la cambiaste? <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+/* Estilos para la tabla de horarios */
+.table th, .table td {
+  vertical-align: middle;
+}
+
+/* Estilos para los inputs en modo edición */
+.form-control:focus {
+  border-color: #EE890D;
+  box-shadow: 0 0 0 0.2rem rgba(238, 137, 13, 0.25);
+}
+
+/* Estilos para botones deshabilitados */
+.btn:disabled {
+  opacity: 0.6;
+}
+
+/* Estilos adicionales para mejorar la apariencia */
+.text-muted {
+  color: #6c757d !important;
+}
+
+/* Animación sutil para los mensajes */
+.alert {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para el contenedor principal */
+.container {
+  max-width: 1200px;
+}
+
+/* Estilos para los iconos de Bootstrap */
+.bi {
+  margin-right: 5px;
+}

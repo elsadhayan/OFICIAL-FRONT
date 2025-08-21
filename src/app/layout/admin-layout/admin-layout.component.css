@@ -1,0 +1,56 @@
+#wrapper {
+  min-height: 100vh;
+}
+
+#sidebar-wrapper {
+
+  width: 250px;
+}
+
+.active {
+  background-color: #CBBF9E;
+  font-weight: bold;
+}
+a.active {
+  font-weight: bold;
+  background-color: #CBBF9E;
+  padding: 5px;
+  border-radius: 4px;
+}
+.sidebar-btn {
+  border-width: 2px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.sidebar-btn:hover,
+.sidebar-btn.active,
+.sidebar-btn.router-link-active {
+  background-color: #CBBF9E;
+  color: white !important;
+  border-color: #CBBF9E;
+}
+.dt{
+  background-color: #303E2D;
+}
+.navbar{
+  background-color: #e9ecef;
+}
+.custom-menu-btn {
+  background-color: #CBBF9E; /* morado */
+  color: #ffffff;
+  border: 1px solid #CBBF9E;
+}
+
+.custom-menu-btn:hover {
+  background-color: #CBBF9E;
+}
+.nav-link:hover{
+   background-color: #CBBF9E; /* Fondo más oscuro al pasar el mouse */
+  font-weight: bold;
+  background-color: #CBBF9E;
+  padding: 5px;
+  border-radius: 4px;
+
+
+}

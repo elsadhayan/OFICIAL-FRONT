@@ -1,0 +1,63 @@
+<div class="instructor-toolbar">
+  <!-- Este es el navbar que sí quieres mostrar -->
+
+<nav class="navbar navbar-expand-lg px-3">
+  <!-- Botón del sidebar -->
+  <button class="btn custom-menu-btn me-3" (click)="toggleSidebar()">
+    ☰
+  </button>
+
+  <!-- Menú desplegable del usuario -->
+  <div class="dropdown ms-2">
+    <a
+      class="navbar-brand dropdown-toggle"
+      href="#"
+      role="button"
+      id="userDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="bi bi-person-circle"></i> Instructor
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+      <li>
+        <button class="dropdown-item "routerLink="perfil-instructor" routerLinkActive="active" >Ver perfil</button>
+      </li>
+      <li><hr class="dropdown-divider" /></li>
+      <li>
+        <a class="dropdown-item text-danger" routerLink="/login" routerLinkActive="active">Cerrar sesión</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- Contenedor Sidebar + Contenido -->
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div [ngClass]="{ 'd-none': !sidebarVisible }" class="bg-light border-end vh-100 p-3" class="dt" style="width: 250px;">
+    <h4 class="mt-3" style="color: #CBBF9E; text-align: center;">Apartados</h4>
+
+
+    <a routerLink="/instructor/alumnos-i" routerLinkActive="active"
+       class="btn btn-outline w-100 mb-2 text-start sidebar-btn" style="color: white;"><i class="bi bi-person-square"></i>
+      Alumnos
+    </a>
+    <a routerLink="/instructor/taller" routerLinkActive="active"
+       class="btn btn-outline w-100 mb-2 text-start sidebar-btn" style="color: white;"> <i class="bi bi-easel"></i>
+       Taller
+    </a>
+
+    <a routerLink="/instructor/asistencia" routerLinkActive="active"
+       class="btn btn-outline w-100 mb-2 text-start sidebar-btn" style="color: white;"><i class="bi bi-person-lines-fill"></i>
+      Asistencia
+    </a>
+
+
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+</div>
+

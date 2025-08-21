@@ -1,4 +1,5 @@
-<mat-toolbar class="custom-toolbar">
+<!-- NAVBAR DESKTOP -->
+<mat-toolbar *ngIf="mostrarNavbar" class="custom-toolbar">
   <img src="assets/HUIZTLIORIGINAAAAL.png" alt="Logotipo" class="logo" />
   <span class="spacer"></span>
 
@@ -9,15 +10,6 @@
     <button mat-button [matMenuTriggerFor]="menuTalleres" class="boton-talleres">
       TALLERES <mat-icon>expand_more</mat-icon>
     </button>
-    <mat-menu #menuTalleres="matMenu" class="custom-menu">
-      <ng-container *ngFor="let taller of talleres">
-        <button mat-menu-item [routerLink]="taller.ruta" routerLinkActive="activo-link">
-          <mat-icon>{{ taller.icono }}</mat-icon>
-          <span>{{ taller.nombre }}</span>
-        </button>
-        <mat-divider></mat-divider>
-      </ng-container>
-    </mat-menu>
 
     <a mat-button routerLink="/nosotros" routerLinkActive="activo-link">ACERCA DE NOSOTROS</a>
 
@@ -25,34 +17,6 @@
     <button mat-button [matMenuTriggerFor]="menuInscripciones" class="boton-talleres">
       INSCRIPCIONES <mat-icon>expand_more</mat-icon>
     </button>
-    <mat-menu #menuInscripciones="matMenu" class="custom-menu">
-      <mat-divider></mat-divider>
-      <button mat-menu-item routerLink="/registro/inscripciones">
-        <mat-icon>event</mat-icon>
-        <span>Periodo cuatrimestral</span>
-      </button>
-      <button mat-menu-item routerLink="/registro/estatus-inscripciones">
-        <mat-icon>article</mat-icon>
-        <span>Estado</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item [matMenuTriggerFor]="submenuReinscripciones">
-        <mat-icon>loop</mat-icon>
-        <span>Reinscripciones</span>
-      </button>
-    </mat-menu>
-
-    <!-- Submenú Reinscripciones -->
-    <mat-menu #submenuReinscripciones="matMenu" class="custom-menu">
-      <button mat-menu-item routerLink="/registro/reinscripciones">
-        <mat-icon>event</mat-icon>
-        <span>Periodo cuatrimestral</span>
-      </button>
-      <button mat-menu-item routerLink="/registro/estatus-reinscripciones">
-        <mat-icon>article</mat-icon>
-        <span>Estado</span>
-      </button>
-    </mat-menu>
 
     <a mat-button routerLink="/registro" routerLinkActive="activo-link">CREAR CUENTA</a>
     <a mat-button routerLink="/login" routerLinkActive="activo-link">INICIAR SESIÓN</a>
@@ -67,7 +31,7 @@
 </mat-toolbar>
 
 <!-- MENÚ MOBILE -->
-<div *ngIf="menuActivo" class="mobile-menu">
+<div *ngIf="menuActivo && mostrarNavbar" class="mobile-menu">
   <a mat-button routerLink="/home" (click)="toggleMenu()">INICIO</a>
 
   <button mat-button [matMenuTriggerFor]="menuTalleres" class="boton-talleres">
@@ -85,3 +49,48 @@
   <!-- MIS PAGOS (solo logeado) -->
   <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-pagos" (click)="toggleMenu()">MIS PAGOS</a>
 </div>
+
+<!-- ============================= -->
+<!--  MENÚS COMPARTIDOS (globales) -->
+<!-- ============================= -->
+
+<!-- MENÚ TALLERES -->
+<mat-menu #menuTalleres="matMenu" class="custom-menu">
+  <ng-container *ngFor="let taller of talleres">
+    <button mat-menu-item [routerLink]="taller.ruta" routerLinkActive="activo-link" (click)="toggleMenu()">
+      <mat-icon>{{ taller.icono }}</mat-icon>
+      <span>{{ taller.nombre }}</span>
+    </button>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-menu>
+
+<!-- MENÚ INSCRIPCIONES -->
+<mat-menu #menuInscripciones="matMenu" class="custom-menu">
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="/registro/inscripciones" (click)="toggleMenu()">
+    <mat-icon>event</mat-icon>
+    <span>Periodo cuatrimestral</span>
+  </button>
+  <button mat-menu-item routerLink="/registro/estatus-inscripciones" (click)="toggleMenu()">
+    <mat-icon>article</mat-icon>
+    <span>Estado</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item [matMenuTriggerFor]="submenuReinscripciones">
+    <mat-icon>loop</mat-icon>
+    <span>Reinscripciones</span>
+  </button>
+</mat-menu>
+
+<!-- Submenú Reinscripciones -->
+<mat-menu #submenuReinscripciones="matMenu" class="custom-menu">
+  <button mat-menu-item routerLink="/registro/reinscripciones" (click)="toggleMenu()">
+    <mat-icon>event</mat-icon>
+    <span>Periodo cuatrimestral</span>
+  </button>
+  <button mat-menu-item routerLink="/registro/estatus-reinscripciones" (click)="toggleMenu()">
+    <mat-icon>article</mat-icon>
+    <span>Estado</span>
+  </button>
+</mat-menu>

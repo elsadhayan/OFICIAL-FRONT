@@ -1,0 +1,101 @@
+<!-- director-layout.component.html -->
+<div class="director-layout instructor-toolbar">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg px-3">
+    <!-- Botón del sidebar -->
+    <button class="btn custom-menu-btn me-3" (click)="toggleSidebar()">
+      ☰
+    </button>
+
+    <!-- Menú desplegable del usuario -->
+    <div class="dropdown ms-2">
+      <a
+        class="navbar-brand dropdown-toggle"
+        href="#"
+        role="button"
+        id="userDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="bi bi-person-circle"></i> Director
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+
+        <li><a class="dropdown-item text-danger "routerLink="/login" routerLinkActive="active" >Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenedor Sidebar + Contenido -->
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div
+      [ngClass]="{ 'd-none': !sidebarVisible }"
+      class=" border-end vh-100 p-3"
+      style="background-color: #303E2D; width: 250px;"
+    >
+    <h4 class="" style="color: #CBBF9E; text-align: center;">Inicio</h4>
+     <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn" routerLink="inicio-director" routerLinkActive="active"
+      style="color: white;"
+       >
+        Datos generales
+    </a>
+    <h4 class="mt-3" style="color: #CBBF9E; text-align: center;">Talleres</h4>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de Guitarra')">
+        Taller de Guitarra
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de dibujo infantil')">
+       Taller de dibujo infantil
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de musica y solfeo')">
+        Taller de musica y solfeo
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de fotografia')">
+        Taller de fotografia
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de danza folclorica')">
+        Taller de danza folclorica
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de ballet clasico')">
+        Taller de ballet clasico
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de decoracion en ceramica')">
+        Taller de decoracion en ceramica
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de marimba')">
+        Taller de marimba
+    </a>
+    <a class="btn btn-outline w-100 mb-2 text-start sidebar-btn"
+      style="color: white;"
+       (click)="verTaller('Taller de dibujo y pintura')">
+        Taller de dibujo y pintura
+    </a>
+
+
+
+
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,49 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 2fr));
+  gap: 100px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.4s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card .icon {
+  font-size: 35px;
+  color: #4e73df; /* Cambia el color del icono */
+  margin-right: 15px;
+}
+
+.stat-card .details h5 {
+  font-size: 20px;
+  margin: 0;
+  color: #d40840; /* Color del título */
+}
+
+.stat-card .details h2 {
+  font-size: 24px;
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.stat-card .details small {
+  color: #28a745; /* Color del texto pequeño */
+}
+
+/* Personalización rápida */
+:root {
+  --card-bg: white;
+  --icon-color: #4e73df;
+  --title-color: #6c757d;
+  --highlight-color: #28a745;
+}

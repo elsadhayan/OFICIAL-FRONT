@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <!-- Loader mientras carga los datos -->
+  <div *ngIf="cargandoDatos" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Cargando datos del instructor...</p>
+  </div>
+
+  <!-- Contenido principal cuando ya cargaron los datos -->
+  <div *ngIf="!cargandoDatos">
+    <h2 class="text-center mb-4" style="color:#D40840;">{{ nombreTaller }}</h2>
+    <h3 class="text-center" style="color:#000000;">Horario</h3>
+
+    <!-- Información del maestro (opcional, para debugging) -->
+    <div *ngIf="datosInstructor" class="alert alert-info mb-3">
+      <small>
+        <strong>Instructor:</strong> {{ datosInstructor.maestro?.nombre || datosInstructor.nombre }} |
+        <strong>ID:</strong> {{ maestroId }} |
+        <strong>Taller ID:</strong> {{ tallerId }}
+      </small>
+    </div>
+
+    <!-- Botones de control -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <button
+          class="btn me-2"
+          [ngClass]="editando ? 'btn-success' : 'btn-primary'"
+          (click)="toggleEdicion()"
+          [disabled]="guardando || maestroId <= 0">
+          <i class="bi" [ngClass]="editando ? 'bi-save' : 'bi-pencil-square'"></i>
+          {{ editando ? 'Guardar' : 'Editar' }}
+        </button>
+
+        <button
+          *ngIf="editando"
+          class="btn btn-secondary me-2"
+          (click)="cancelarEdicion()">
+          <i class="bi bi-x-circle"></i>
+          Cancelar
+        </button>
+
+        <button
+          class="btn btn-info me-2"
+          (click)="cargarHorario()"
+          [disabled]="guardando || maestroId <= 0">
+          <i class="bi bi-arrow-clockwise"></i>
+          Actualizar
+        </button>
+
+        <!-- Botón de debug (puedes eliminarlo después de probar) -->
+        <button
+          class="btn btn-outline-secondary"
+          (click)="refrescarDatos()"
+          [disabled]="cargandoDatos">
+          <i class="bi bi-arrow-clockwise"></i>
+          Refrescar Datos
+        </button>
+      </div>
+
+      <div *ngIf="guardando" class="text-muted">
+        <i class="bi bi-hourglass-split"></i>
+        Guardando...
+      </div>
+    </div>
+
+    <!-- Alerta si no se pudo obtener el maestroId -->
+    <div *ngIf="maestroId <= 0" class="alert alert-warning">
+      <i class="bi bi-exclamation-triangle"></i>
+      No se pudo obtener la información del maestro. Algunas funciones podrían no estar disponibles.
+    </div>
+
+    <!-- Tabla de horarios -->
+    <table class="table table-bordered border-warning" style="color: #EE890D;">
+      <thead>
+        <tr>
+          <th scope="col" style="text-align: center;">Hora</th>
+          <th scope="col" style="text-align: center;">Lunes</th>
+          <th scope="col" style="text-align: center;">Martes</th>
+          <th scope="col" style="text-align: center;">Miércoles</th>
+          <th scope="col" style="text-align: center;">Jueves</th>
+          <th scope="col" style="text-align: center;">Viernes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of horarioMatrix; let i = index">
+          <th scope="row" style="text-align: center;" class="fw-bold">
+            {{ horasDisponibles[i] }}
+          </th>
+          <td *ngFor="let celda of fila; let j = index" style="text-align: center;">
+            <ng-container *ngIf="editando; else verTexto">
+              <input
+                [(ngModel)]="horarioMatrix[i][j]"
+                class="form-control text-center"
+                placeholder="Grupo"
+                style="border: 1px solid #EE890D;" />
+            </ng-container>
+            <ng-template #verTexto>
+              <span [class.text-muted]="!celda">{{ celda || '-' }}</span>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Mensajes de estado -->
+    <div *ngIf="mensaje" class="alert" [ngClass]="{
+      'alert-success': mensaje.tipo === 'success',
+      'alert-danger': mensaje.tipo === 'error',
+      'alert-warning': mensaje.tipo === 'warning'
+    }">
+      {{ mensaje.texto }}
+    </div>
+  </div>
+</div>
+

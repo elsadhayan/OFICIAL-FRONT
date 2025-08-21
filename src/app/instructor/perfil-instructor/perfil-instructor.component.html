@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <h2 style="color:#D40840;">Mi Perfil</h2>
+  <form [formGroup]="perfilForm" (ngSubmit)="actualizarPerfil()">
+    <div class="mb-3">
+      <label for="curp" class="form-label">CURP / Usuario</label>
+      <input id="curp" formControlName="curp" type="text" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label for="contrasena" class="form-label">Nueva Contraseña (opcional)</label>
+      <input id="contrasena" formControlName="contrasena" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar Perfil</button>
+  </form>
+</div>
+

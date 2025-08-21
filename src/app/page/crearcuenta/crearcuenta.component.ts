@@ -53,7 +53,7 @@ export class CrearcuentaComponent {
 
     }).subscribe({
       next: () => {
-        alert('Cuenta creada exitosamente');
+        alert('✅ Cuenta creada exitosamente');
         this.router.navigate(['/login']);
       },
       error: (err) => {

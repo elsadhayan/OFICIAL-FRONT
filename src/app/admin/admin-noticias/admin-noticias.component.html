@@ -1,0 +1,17 @@
+<div class="container my-4">
+  <h2 class="text-center text-primary mb-4">Galería de Noticias</h2>
+
+  <div class="row g-4">
+    <!-- Card repetida 6 veces -->
+    <div class="col-md-4" *ngFor="let card of [1,2,3,4,5,6]">
+      <div class="card card-hover h-100">
+        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Imagen noticia">
+        <div class="card-body">
+          <h5 class="card-title">Título {{card}}</h5>
+          <p class="card-text">Descripción breve de la noticia número {{card}}. Esto es solo de muestra.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

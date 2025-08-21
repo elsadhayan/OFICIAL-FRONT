@@ -1,3 +1,4 @@
+// src/app/auth/inicio-sesion/inicio-sesion.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,13 +14,9 @@ import { AuthService } from '../../auth.service';
   standalone: true,
   selector: 'app-inicio-sesion',
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSelectModule
+    CommonModule, ReactiveFormsModule,
+    MatFormFieldModule, MatInputModule, MatIconModule,
+    MatButtonModule, MatSelectModule
   ],
   templateUrl: './inicio-sesion.component.html',
   styleUrl: './inicio-sesion.component.css'
@@ -43,60 +40,66 @@ export class InicioSesionComponent implements OnInit {
       next: (res) => console.log('✔ Conectado con Laravel:', res),
       error: (err) => console.error('❌ No se pudo conectar con Laravel:', err)
     });
-    // 👇 ESTO es lo que te faltaba para ver el ID y usuario en consola
-  const usuario = JSON.parse(localStorage.getItem('usuario')!);
-  const id = localStorage.getItem('usuario_id');
-  console.log('📌 Usuario logeado:', usuario);
-  console.log('📌 ID del usuario:', id);
+
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    const id = localStorage.getItem('usuario_id');
+    console.log('📌 Usuario logeado:', usuario);
+    console.log('📌 ID del usuario:', id);
   }
 
- onLogin() {
-  const { curp, contrasena } = this.loginForm.value;
+  onLogin(): void {
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid) return;
 
-  this.authService.login({ curp, contrasena }).subscribe({
-    next: (res) => {
-      const role = res.role?.trim().toLowerCase();
+    const { curp, contrasena } = this.loginForm.value;
 
-      // ✅ Guardar token para enviar con inscripciones
-      localStorage.setItem('token', res.access_token); // 👈 importante
-      console.log('Respuesta completa:', res);
+    this.authService.login({
+      curp: String(curp).toUpperCase(),
+      contrasena
+    }).subscribe({
+      next: (res) => {
 
+        alert(' ✅Inicio de sesion correctamente ');
+        // Normaliza posibles formas de respuesta del backend
+        const role = (res.role ?? res.usuario?.role ?? res.user?.role ?? '')
+          .toString().trim().toLowerCase();
+        const id   = (res.id ?? res.usuario?.id ?? res.user?.id ?? '').toString();
+        const token = (res.access_token ?? res.token ?? '');
 
-      // ✅ También guarda los datos del usuario
-      localStorage.setItem('usuario', JSON.stringify(res));
-      localStorage.setItem('usuario_id', res.id); // 👈 útil si lo necesitas después
+        // Guarda lo mínimo
+        if (token) localStorage.setItem('token', token);
+        localStorage.setItem('usuario', JSON.stringify(res));
+        if (id) localStorage.setItem('usuario_id', id);
 
-      // 🔁 Redireccionar según el rol
-      switch (role) {
-        case 'administrador':
-          this.router.navigate(['/admin']);
-          break;
-        case 'director':
-          this.router.navigate(['/director']);
-          break;
-        case 'maestro':
-          this.router.navigate(['/instructor']);
-          break;
-        case 'usuario':
-          this.router.navigate(['/home']);
-          break;
-        default:
-          alert('Rol no reconocido');
+        // Redirección por rol (solo te afecta login)
+        switch (role) {
+          case 'administrador':
+            this.router.navigate(['/admin/gestionar-talleres']); // <- página de Juan
+            break;
+          case 'director':
+            this.router.navigate(['/director/gestion']);
+            break;
+          case 'maestro':
+          case 'instructor':
+            this.router.navigate(['/instructor']);
+            break;
+          default: // usuario u otro
+            this.router.navigate(['/home']);
+            break;
+        }
+      },
+
+      error: (err) => {
+        console.error(err);
+        alert('Credenciales inválidas');
       }
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Credenciales inválidas');
-    }
-  });
-}
-
-
+    });
+  }
 
   probarConexion() {
     this.authService.pingLaravel().subscribe({
-      next: res => alert('✔ Laravel dice: ' + res.message),
-      error: err => alert('❌ Laravel no responde')
+      next: (res: any) => alert('✔ Laravel dice: ' + (res.message ?? 'ok')),
+      error: () => alert('❌ Laravel no responde')
     });
   }
 }

@@ -1,0 +1,79 @@
+/* Layout general */
+.contenedor-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Lado del logotipo */
+.lado-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-huiztli {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+}
+
+/* Card/formulario */
+.lado-formulario {
+  display: flex;
+  justify-content: center;
+}
+.formulario-login {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 22px 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+/* Títulos */
+.bienvenida {
+  margin: 0 0 4px;
+  color: #6b6b6b;
+  font-weight: 500;
+}
+.formulario-login h2 {
+  margin: 0 0 18px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Campos */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.campos { font-weight: 600; }
+
+/* Botón principal (ajusta color a tu tema si quieres) */
+.btn-login {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #c8b786;
+  color: #1d1d1d;
+  font-weight: 600;
+}
+.btn-login:hover { filter: brightness(0.96); }
+
+/* Links */
+.registro-link, .registro-linck {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .contenedor-login { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem 1rem; }
+  .lado-logo { order: -1; }
+  .formulario-login { max-width: 640px; }
+}

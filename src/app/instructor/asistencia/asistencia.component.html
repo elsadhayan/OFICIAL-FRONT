@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Lista de Asistencia</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white">
+      <thead class="table-info text-center">
+        <tr>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Nombre</th>
+          <th>Mes 1</th>
+          <th>Mes 2</th>
+          <th>Mes 3</th>
+          <th>Mes 4</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        <tr *ngFor="let alumno of alumnos">
+          <td>{{ alumno.apellido_paterno }}</td>
+          <td>{{ alumno.apellido_materno }}</td>
+          <td>{{ alumno.nombres }}</td>
+          <td><input type="checkbox" [checked]="alumno.mes1"></td>
+          <td><input type="checkbox" [checked]="alumno.mes2"></td>
+          <td><input type="checkbox" [checked]="alumno.mes3"></td>
+          <td><input type="checkbox" [checked]="alumno.mes4"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

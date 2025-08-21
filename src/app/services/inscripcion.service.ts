@@ -1,56 +1,70 @@
+// src/app/services/inscripcion.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class InscripcionService {
-  private apiUrl = 'http://127.0.0.1:8000/api/inscripcion';
+  private readonly API = 'http://127.0.0.1:8000/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  registrarInscripcion(data: any): Observable<any> {
-    const token = localStorage.getItem('token'); // recupera el token guardado
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post(this.apiUrl, data, { headers });
-
-
+  // ---------- helpers ----------
+  private authHeaders(json = true): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    let headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    if (json) headers = headers.set('Content-Type', 'application/json');
+    return headers;
   }
-obtenerDatosUsuario(): Observable<any> {
-  const token = localStorage.getItem('token');
 
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  });
+  // ---------- inscripciones (usuario) ----------
+  registrarInscripcion(data: any): Observable<any> {
+    return this.http.post(`${this.API}/inscripcion`, data, {
+      headers: this.authHeaders(),
+    });
+  }
 
-  return this.http.get('http://127.0.0.1:8000/api/inscripcion/usuario', { headers });
-}
-actualizarReinscripcion(data: any): Observable<any> {
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  });
+  obtenerDatosUsuario(): Observable<any> {
+    return this.http.get(`${this.API}/inscripcion/usuario`, {
+      headers: this.authHeaders(false),
+    });
+  }
 
-  return this.http.put('http://127.0.0.1:8000/api/reinscripcion', data, { headers });
-}
-getAlumnosReinscripcion() {
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-  return this.http.get('http://127.0.0.1:8000/api/reinscripcion/alumnos', { headers });
-}
+  // ---------- reinscripción ----------
+  actualizarReinscripcion(data: any): Observable<any> {
+    return this.http.put(`${this.API}/reinscripcion`, data, {
+      headers: this.authHeaders(),
+    });
+  }
 
-getFormularioPorAlumno(alumnoId: number) {
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-  return this.http.get(`http://127.0.0.1:8000/api/reinscripcion/form/${alumnoId}`, { headers });
-}
+  getAlumnosReinscripcion(): Observable<any> {
+    return this.http.get(`${this.API}/reinscripcion/alumnos`, {
+      headers: this.authHeaders(false),
+    });
+  }
 
+  getFormularioPorAlumno(alumnoId: number): Observable<any> {
+    return this.http.get(`${this.API}/reinscripcion/form/${alumnoId}`, {
+      headers: this.authHeaders(false),
+    });
+  }
 
+  // ---------- admin (pendientes / aceptar / rechazar) ----------
+  obtenerPendientes(): Observable<any> {
+    return this.http.get(`${this.API}/inscripciones/pendientes`, {
+      headers: this.authHeaders(false),
+    });
+  }
+
+  aceptarInscripcion(id: number): Observable<any> {
+    return this.http.put(`${this.API}/inscripciones/aceptar/${id}`, {}, {
+      headers: this.authHeaders(),
+    });
+  }
+
+  rechazarInscripcion(id: number): Observable<any> {
+    return this.http.delete(`${this.API}/inscripciones/rechazar/${id}`, {
+      headers: this.authHeaders(false),
+    });
+  }
 }

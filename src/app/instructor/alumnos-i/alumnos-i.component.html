@@ -1,0 +1,29 @@
+<h2 class="text-center">Mis Alumnos</h2>
+
+<div *ngIf="loading" class="text-center p-4">
+  <p>Cargando alumnos...</p>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+
+<table class="table table-striped" *ngIf="!loading && alumnos && alumnos.length > 0">
+  <thead>
+    <tr>
+      <th>Nombre Completo</th>
+      <th>Edad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let alumno of alumnos">
+      <td>{{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}</td>
+      <td>{{ alumno.edad }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && (!alumnos || alumnos.length === 0)" class="alert alert-info">
+  No tienes alumnos registrados.
+</div>
+

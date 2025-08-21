@@ -1,0 +1,188 @@
+<div class="info-alumno-container">
+  <!-- Header con título y botones -->
+  <div class="header-section">
+    <div class="header-content">
+      <button class="btn-volver" (click)="volveer()" mat-raised-button color="primary">
+        <mat-icon>arrow_back</mat-icon>
+        Inicio
+      </button>
+      <h1 class="titulo-principal">Información del Alumno</h1>
+
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-section">
+    <p>Cargando información del alumno...</p>
+  </div>
+
+  <!-- Error -->
+
+
+  <!-- Contenido principal -->
+  <div class="contenido-principal" *ngIf="alumnoSeleccionado && !cargando && !error">
+
+    <!-- Información del Taller -->
+    <div class="seccion taller-section">
+      <div class="seccion-header">
+        <mat-icon class="seccion-icon">school</mat-icon>
+        <h2>TALLER CULTURAL</h2>
+      </div>
+      <div class="taller-info">
+        <div class="taller-badge">
+          <strong>{{ alumnoSeleccionado.nombre_taller }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos Personales del Alumno -->
+    <div class="seccion">
+      <div class="seccion-header">
+        <mat-icon class="seccion-icon">person</mat-icon>
+        <h2>DATOS PERSONALES DEL ALUMNO</h2>
+      </div>
+      <div class="datos-grid">
+        <div class="dato-item">
+          <span class="dato-label">Apellido Paterno:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.apellido_paterno }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Apellido Materno:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.apellido_materno }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Nombres:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.nombres }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Fecha de Nacimiento:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.fecha_nacimiento | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Edad:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.edad }} años</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Sexo:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.sexo }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Teléfono:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.numero_telefono }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Teléfono de Casa:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.numero_casa }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos Médicos -->
+    <div class="seccion">
+      <div class="seccion-header">
+        <mat-icon class="seccion-icon">local_hospital</mat-icon>
+        <h2>DATOS MÉDICOS DEL ALUMNO</h2>
+      </div>
+      <div class="datos-grid">
+        <div class="dato-item">
+          <span class="dato-label">Tipo de Sangre:</span>
+          <span class="dato-valor tipo-sangre">{{ alumnoSeleccionado.tipo_sangre }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Alergia:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.alergia }}</span>
+        </div>
+        <div class="dato-item dato-item-full">
+          <span class="dato-label">Descripción de Alergia:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.alergia_descripcion || 'No especificado' }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Tratamiento Médico:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.tratamiento_medico }}</span>
+        </div>
+        <div class="dato-item dato-item-full">
+          <span class="dato-label">Descripción del Tratamiento:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.tratamiento_descripcion || 'No especificado' }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Enfermedad Crónica:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.enfermedad_cronica }}</span>
+        </div>
+        <div class="dato-item dato-item-full">
+          <span class="dato-label">Descripción de Enfermedad:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.enfermedad_descripcion || 'No especificado' }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Tutor de Emergencia:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.tutor_emergencia }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Teléfono de Emergencia:</span>
+          <span class="dato-valor emergencia">{{ alumnoSeleccionado.telefono_emergencia }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos Académicos -->
+    <div class="seccion">
+      <div class="seccion-header">
+        <mat-icon class="seccion-icon">menu_book</mat-icon>
+        <h2>DATOS ACADÉMICOS DEL ALUMNO</h2>
+      </div>
+      <div class="datos-grid">
+        <div class="dato-item">
+          <span class="dato-label">Estudia:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.estudio_alumno }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Grado de Estudio:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.grado_estudio || 'No especificado' }}</span>
+        </div>
+        <div class="dato-item dato-item-full">
+          <span class="dato-label">Institución Educativa:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.institucion_educativa || alumnoSeleccionado.escuela_nueva || 'No especificado' }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Estado:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.estado }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos del Tutor -->
+    <div class="seccion">
+      <div class="seccion-header">
+        <mat-icon class="seccion-icon">supervisor_account</mat-icon>
+        <h2>DATOS DEL TUTOR O RESPONSABLE</h2>
+      </div>
+      <div class="datos-grid">
+        <div class="dato-item">
+          <span class="dato-label">Apellido Paterno:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.apellido_paterno_tutor }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Apellido Materno:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.apellido_materno_tutor }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Nombres:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.nombres_tutor }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Teléfono:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.numero_telefonico }}</span>
+        </div>
+        <div class="dato-item">
+          <span class="dato-label">Correo:</span>
+          <span class="dato-valor email">{{ alumnoSeleccionado.correo }}</span>
+        </div>
+        <div class="dato-item dato-item-full">
+          <span class="dato-label">Domicilio:</span>
+          <span class="dato-valor">{{ alumnoSeleccionado.domicilio }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

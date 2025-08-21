@@ -1,0 +1,35 @@
+<h1 style="text-align: center;">Bienvenido</h1>
+
+<div class="container p-3">
+
+<h2 class="text-center " style="color:#d40840;">Alumnos</h2>
+  <!-- Simulación de un toolbar -->
+  <div class="d-flex justify-content-between align-items-center ">
+
+
+
+
+  </div>
+<table class="table">
+  <thead class="table-info">
+    <tr>
+      <th>id_alumno</th>
+      <th>Apellido_Paterno</th>
+      <th>apellido_materno</th>
+      <th>Nombres</th>
+      <th>Edad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let alumno of alumnos">
+      <td>{{ alumno.id}}</td>
+      <td>{{ alumno.apellido_paterno }}</td>
+      <td>{{ alumno.apellido_materno }}</td>
+      <td>{{ alumno.nombres }}</td>
+      <td>{{ alumno.edad }}</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
