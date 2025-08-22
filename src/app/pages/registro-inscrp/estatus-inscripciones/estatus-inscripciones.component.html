@@ -5,25 +5,39 @@
     <p>
       ¡Gracias por tu interés en la <strong><em>Casa de la Cultura Huitztli</em></strong>!
     </p>
-
     <p>
-      Estás a un paso de a completar el registro de tu <em><strong>inscripción</strong></em> en alguno de nuestros talleres.
+      Estás a un paso de completar el registro de tu <em><strong>inscripción</strong></em> en alguno de nuestros talleres.
     </p>
+    <p>Pronto un administrador revisará tu solicitud.</p>
 
-    <p>
-      Pronto un administrador revisará tu solicitud.
-    </p>
+    <!-- Cargando -->
+    <p *ngIf="loading">Cargando…</p>
 
-    <p class="estado-texto"><strong>Estado</strong></p>
-    <p class="estado-pendiente">PENDIENTE POR REVISAR</p>
+    <!-- Contenido dinámico -->
+    <ng-container *ngIf="!loading">
+      <!-- Con datos -->
+      <ng-container *ngIf="ultima; else sinDatos">
+        <p class="estado-texto"><strong>Estado</strong></p>
+        <div class="estado-chip" [ngClass]="estadoClase(ultima?.estado)">
+          {{ estadoTexto(ultima?.estado) }}
+        </div>
 
+        <div class="detalle">
+          <div><b>Taller:</b> {{ ultima?.taller || '—' }}</div>
+          <div><b>Fecha:</b> {{ ultima?.fecha_inscripcion | date:'mediumDate' }}</div>
+        </div>
+      </ng-container>
 
-<div class="acciones">
-  <button routerLink="/mis-pagos" class="btn btn-lg btn-pagos">
-    Ver mis pagos
-  </button>
+      <!-- Sin datos -->
+      <ng-template #sinDatos>
+        <p class="estado-texto"><strong>Estado</strong></p>
+        <div class="estado-chip pendiente">NO HAY SOLICITUDES</div>
+      </ng-template>
+    </ng-container>
 
-
-
+    <div class="acciones">
+      <button routerLink="/mis-pagos" class="btn btn-lg btn-pagos">Ver mis pagos</button>
+      <button class="btn btn-lg" type="button" (click)="cargar()">Refrescar</button>
+    </div>
   </div>
 </div>

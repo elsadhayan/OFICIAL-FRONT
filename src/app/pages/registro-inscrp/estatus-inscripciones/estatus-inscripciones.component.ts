@@ -1,38 +1,67 @@
+// src/app/registro/estatus-inscripciones/estatus-inscripciones.component.ts
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { InscripcionService, Inscripcion } from '../../../services/inscripcion.service';
+
 @Component({
   standalone: true,
   selector: 'app-estatus-inscripciones',
-  imports: [MatIconModule, MatButtonModule,RouterModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule],
   templateUrl: './estatus-inscripciones.component.html',
   styleUrl: './estatus-inscripciones.component.css'
 })
 export class EstatusInscripcionesComponent implements OnInit {
+  loading = false;
+  inscripciones: Inscripcion[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private insSrv: InscripcionService) {}
 
   ngOnInit(): void {
-
+    this.cargar();
   }
 
+  cargar() {
+    this.loading = true;
+    this.insSrv.misInscripciones().subscribe({
+      next: data => { this.inscripciones = data; this.loading = false; },
+      error: _ => { this.loading = false; }
+    });
+  }
+
+  // La más reciente para la tarjeta principal
+  get ultima(): Inscripcion | null {
+    return this.inscripciones.length ? this.inscripciones[0] : null;
+  }
+
+  estadoClase(e?: string) {
+    switch ((e || '').toLowerCase()) {
+      case 'aceptada':  return 'estado aceptada';
+      case 'rechazada': return 'estado rechazada';
+      default:          return 'estado pendiente';
+    }
+  }
+  estadoTexto(e?: string) {
+    switch ((e || '').toLowerCase()) {
+      case 'aceptada':  return 'ACEPTADA';
+      case 'rechazada': return 'RECHAZADA';
+      default:          return 'PENDIENTE POR REVISAR';
+    }
+  }
+
+  irPagos() { this.router.navigate(['/mis-pagos']); }
+
   confirmarCerrarSesion(): void {
-    const confirmar = confirm('¿Estás seguro de que deseas cerrar sesión?');
-    if (confirmar) {
+    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
       localStorage.removeItem('usuario');
-      alert('Sesión cerrada correctamente.');
+      localStorage.removeItem('token');
       this.router.navigate(['/']);
     }
   }
   logout(): void {
-    // limpia sesión básica (ajusta claves si usas otras)
     localStorage.removeItem('token');
-    // localStorage.removeItem('usuario'); // si la usas
-    // sessionStorage.clear(); // si guardas algo ahí
-
-    // redirige (elige el que uses en tu app)
-    this.router.navigate(['/home']); // o '/login'
+    this.router.navigate(['/home']);
   }
 }

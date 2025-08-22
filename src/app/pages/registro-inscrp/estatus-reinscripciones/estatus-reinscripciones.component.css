@@ -68,4 +68,28 @@
   border:1px solid #d32f2f;
 }
 .btn-logout:hover{ background:#d32f2f; color:#fff; }
+.estatus-container { display: grid; gap: 24px; max-width: 900px; margin: 0 auto; padding: 16px; }
+.tarjeta { border: 2px solid #e46f6f; border-radius: 16px; padding: 24px; background: #fff7f7; }
+.titulo { margin-top: 0; }
+.estado-texto { margin-top: 10px; }
+
+.estado-chip {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin: 6px 0 10px;
+}
+.estado-chip.pendiente { background: #fff3cd; color: #856404; }
+.estado-chip.aceptada  { background: #d4edda; color: #155724; }
+.estado-chip.rechazada { background: #f8d7da; color: #721c24; }
+
+.detalle { margin-top: 8px; color: #444; }
+.acciones { display: flex; gap: 12px; margin-top: 16px; }
+.btn.btn-lg { padding: 10px 14px; border-radius: 10px; }
+.btn-pagos { background: #c8b786; color: #1d1d1d; font-weight: 600; }
+.btn-pagos:hover { filter: brightness(0.96); }
+
+.historial table { width: 100%; border-collapse: collapse; }
+.historial th, .historial td { padding: 8px 10px; border-bottom: 1px solid #eee; text-align: left; }
 

@@ -3,6 +3,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface Inscripcion {
+  id: number;
+  alumno_id: number;
+  taller: string | null;
+  fecha_inscripcion: string | null;
+  estado: 'pendiente' | 'aceptada' | 'rechazada';
+  tipo_pago: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class InscripcionService {
   private readonly API = 'http://127.0.0.1:8000/api';
@@ -26,6 +35,13 @@ export class InscripcionService {
 
   obtenerDatosUsuario(): Observable<any> {
     return this.http.get(`${this.API}/inscripcion/usuario`, {
+      headers: this.authHeaders(false),
+    });
+  }
+
+  // 🔹 NUEVO: estatus de mis inscripciones (para el tutor logueado)
+  misInscripciones(): Observable<Inscripcion[]> {
+    return this.http.get<Inscripcion[]>(`${this.API}/mis-inscripciones`, {
       headers: this.authHeaders(false),
     });
   }
