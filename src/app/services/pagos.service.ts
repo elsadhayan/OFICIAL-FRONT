@@ -12,10 +12,11 @@ export interface Pago {
   fecha_vencimiento: string;
   alumno_id: number;
   alumno_nombre: string;
-  concepto: string;        // viene del backend
-  descripcion: string;     // viene del backend
-  pdf_url: string | null;  // viene del backend
+  concepto: string;
+  descripcion: string;
+  pdf_url: string | null;
 }
+
 @Injectable({ providedIn: 'root' })
 export class PagosService {
   private baseUrl = 'http://127.0.0.1:8000/api';
@@ -41,6 +42,7 @@ export class PagosService {
     });
   }
 
+  // ✅ Inscripción/Reinscripción (un PDF por cuatrimestre)
   descargarOrdenIR(alumnoId: number): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/pagos/pdf/${alumnoId}`, {
       headers: this.headers(),
@@ -48,12 +50,15 @@ export class PagosService {
     });
   }
 
- descargarOrdenMensualidad(alumnoId: number): Observable<Blob> {
-  return this.http.get(`${this.baseUrl}/pagos/pdf/mensualidad/alumno/${alumnoId}`, {
-    headers: this.headers(),
-    responseType: 'blob',
-  });
+
+
+descargarOrdenMensualidad(alumnoId: number, mes?: string): Observable<Blob> {
+  const q = mes ? `?mes=${mes}` : '';
+  return this.http.get(
+    `${this.baseUrl}/pagos/pdf/mensualidad/alumno/${alumnoId}${q}`,
+    { headers: this.headers(), responseType: 'blob' }
+  );
 }
 
-}
 
+}

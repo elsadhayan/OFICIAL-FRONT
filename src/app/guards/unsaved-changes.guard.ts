@@ -1,39 +1,37 @@
+// src/app/guards/unsaved-changes.guard.ts
 import { Injectable } from '@angular/core';
-import { CanDeactivate } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 export interface CanExit {
-  canExit: () => boolean;
+  // flags/campos opcionales que el componente puede exponer
+  saltarseGuard?: boolean;                 // ponlo en true tras un submit exitoso
+  inscripcionForm?: { dirty: boolean };   // tu FormGroup
+  canExit?: () => boolean;                // hook opcional del componente
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class UnsavedChangesGuard implements CanDeactivate<CanExit> {
-  private hasLoggedOut = false; // 🔹 flag para evitar múltiples ejecuciones
 
-  constructor(private authService: AuthService, private router: Router) {}
+  canDeactivate(
+    component: CanExit,
+    _currentRoute: ActivatedRouteSnapshot,
+    _currentState: RouterStateSnapshot,
+    _nextState?: RouterStateSnapshot
+  ): boolean {
 
-  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    // Si ya cerró sesión, no volver a preguntar
-    if (this.hasLoggedOut) {
-      return true;
+    // 1) Si ya enviaste (submit OK), deja salir sin preguntar
+    if (component?.saltarseGuard) return true;
+
+    // 2) Si el componente define su propio canExit(), úsalo
+    if (typeof component?.canExit === 'function') {
+      return component.canExit();
     }
 
-    const confirmExit = window.confirm('¿Estás seguro que deseas salir de este apartado?');
-
-    if (confirmExit) {
-      // ✅ Evita que vuelva a ejecutarse
-      this.hasLoggedOut = true;
-
-      this.authService.logout();              // Cierra sesión
-      this.router.navigate(['/']);            // Redirige al home
-      alert('🔒 Tu sesión se ha cerrado correctamente.');
-      return false; // Bloquea navegación original (ya redirigimos manualmente)
+    // 3) Si el form está sucio, pregunta; si no, deja salir
+    if (component?.inscripcionForm?.dirty) {
+      return window.confirm('Tienes cambios sin guardar, ¿salir de todos modos?');
     }
 
-    return false; // Usuario dijo que no quiere salir
+    return true;
   }
 }

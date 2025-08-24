@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { InscripcionService } from '../../../services/inscripcion.service';
-
+import { RouterLink } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-reinscripciones',
@@ -18,7 +18,9 @@ import { InscripcionService } from '../../../services/inscripcion.service';
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
-    InscripcionComponent
+    InscripcionComponent,
+    RouterLink
+
   ],
   templateUrl: './reinscripciones.component.html',
   styleUrl: './reinscripciones.component.css'

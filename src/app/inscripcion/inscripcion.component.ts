@@ -32,24 +32,22 @@ import { Input } from '@angular/core';
 })
 export class InscripcionComponent implements OnInit, CanExit {
   formularioBloqueado: boolean = false; // ✅ nuevo
+   // ⬇⬇⬇ NUEVO: flag para saltarse el guard tras un submit exitoso
+  saltarseGuard = false;
 
   canExit(): boolean {
     return true;
   }
 
+   // ---- NO borres el token aquí, solo pregunta:
   canDeactivate(): boolean {
+    if (this.saltarseGuard) return true;  // deja salir si ya se envió
     return this.confirmarSalida();
   }
 
   confirmarSalida(): boolean {
-    const confirmacion = window.confirm('⚠️ ¿Estás segura de que quieres salir de este apartado? Se cerrará tu sesión.');
-    if (confirmacion) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-    }
-    return confirmacion;
+    return window.confirm('⚠️ ¿Estás segura(o) de salir de este apartado?');
   }
-
   inscripcionForm: FormGroup;
   edad: number[] = Array.from({ length: 86 }, (_, i) => i + 5);
   tipo_sangre: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
@@ -121,7 +119,7 @@ export class InscripcionComponent implements OnInit, CanExit {
       // Datos académicos
       estudio_alumno: ['', Validators.required],
       grado_estudio: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚáéíóúñÑ\\s]+$')]],
-      institucion_educativa: ['', Validators.required],
+      institucion_educativa: [''],
       escuela_nueva: [''],
       estado: ['', Validators.required],
 
@@ -200,32 +198,38 @@ export class InscripcionComponent implements OnInit, CanExit {
       campo?.updateValueAndValidity();
     });
 
-    this.inscripcionForm.get('estudio_alumno')?.valueChanges.subscribe(valor => {
-      const grado = this.inscripcionForm.get('grado_estudio');
-      const institucion = this.inscripcionForm.get('institucion_educativa');
-      const estado = this.inscripcionForm.get('estado');
-      const otraEscuela = this.inscripcionForm.get('escuela_nueva');
+   this.inscripcionForm.get('estudio_alumno')?.valueChanges.subscribe(valor => {
+  const grado = this.inscripcionForm.get('grado_estudio');
+  const institucion = this.inscripcionForm.get('institucion_educativa');
+  const estado = this.inscripcionForm.get('estado');
+  const otraEscuela = this.inscripcionForm.get('escuela_nueva');
 
-      if (valor === 'Si') {
-        grado?.setValidators([Validators.required, Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚáéíóúñÑ\\s]+$')]);
-        institucion?.setValidators([Validators.required]);
-        estado?.setValidators([Validators.required]);
-      } else {
-        grado?.clearValidators();
-        institucion?.clearValidators();
-        estado?.clearValidators();
-        otraEscuela?.clearValidators();
-        grado?.setValue('');
-        institucion?.setValue('');
-        estado?.setValue('');
-        otraEscuela?.setValue('');
-      }
+  if (valor === 'Si') {
+    // Requeridos: grado y estado
+    grado?.setValidators([Validators.required, Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚáéíóúñÑ\\s]+$')]);
+    estado?.setValidators([Validators.required]);
 
-      grado?.updateValueAndValidity();
-      institucion?.updateValueAndValidity();
-      estado?.updateValueAndValidity();
-      otraEscuela?.updateValueAndValidity();
-    });
+    // NO requerido: institución educativa
+    institucion?.clearValidators();
+  } else {
+    // Nada requerido si no estudia actualmente
+    grado?.clearValidators();
+    estado?.clearValidators();
+    institucion?.clearValidators();
+    otraEscuela?.clearValidators();
+
+    grado?.setValue('');
+    estado?.setValue('');
+    institucion?.setValue('');
+    otraEscuela?.setValue('');
+  }
+
+  grado?.updateValueAndValidity();
+  estado?.updateValueAndValidity();
+  institucion?.updateValueAndValidity();
+  otraEscuela?.updateValueAndValidity();
+});
+
   }
 
   obtenerDatosPrevios() {
@@ -301,6 +305,7 @@ export class InscripcionComponent implements OnInit, CanExit {
       this.inscripcionService.registrarInscripcion(datos).subscribe({
         next: () => {
           alert('✅ Inscripción registrada con éxito');
+          this.saltarseGuard = true;
           this.inscripcionForm.reset();
           this.router.navigate(['/registro/estatus-inscripciones']);
         },
@@ -334,6 +339,7 @@ export class InscripcionComponent implements OnInit, CanExit {
     this.inscripcionService.actualizarReinscripcion(datos).subscribe({
       next: () => {
         alert('✅ Reinscripción actualizada con éxito');
+        this.saltarseGuard = true;
         this.inscripcionForm.reset();
         this.router.navigate(['/registro/estatus-reinscripciones']);
       },

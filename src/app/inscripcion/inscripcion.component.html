@@ -322,9 +322,6 @@
       <mat-select formControlName="institucion_educativa">
         <mat-option *ngFor="let escuela of escuelas" [value]="escuela">{{ escuela }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="inscripcionForm.get('institucion_educativa')?.hasError('required') && inscripcionForm.get('institucion_educativa')?.touched">
-        ⚠️ Este campo es obligatorio si estudia.
-      </mat-error>
     </mat-form-field>
   </div>
 
