@@ -16,15 +16,15 @@
     <!-- Contenido dinámico -->
     <ng-container *ngIf="!loading">
       <!-- Con datos -->
-      <ng-container *ngIf="ultima; else sinDatos">
+      <ng-container *ngIf="ultima as insc; else sinDatos">
         <p class="estado-texto"><strong>Estado</strong></p>
-        <div class="estado-chip" [ngClass]="estadoClase(ultima?.estado)">
-          {{ estadoTexto(ultima?.estado) }}
+        <div class="estado-chip" [ngClass]="estadoClase(insc.estado)">
+          {{ estadoTexto(insc.estado) }}
         </div>
 
         <div class="detalle">
-          <div><b>Taller:</b> {{ ultima?.taller || '—' }}</div>
-          <div><b>Fecha:</b> {{ ultima?.fecha_inscripcion | date:'mediumDate' }}</div>
+          <div><b>Taller:</b> {{ insc.taller || '—' }}</div>
+          <div><b>Fecha:</b> {{ insc.fecha_inscripcion ? (insc.fecha_inscripcion | date:'mediumDate') : '—' }}</div>
         </div>
       </ng-container>
 

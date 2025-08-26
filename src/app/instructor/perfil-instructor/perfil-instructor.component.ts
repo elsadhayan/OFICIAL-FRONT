@@ -1,16 +1,17 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { InstructorServicesServiceService } from '../../core/instructor-services-service.service';
-
 @Component({
   selector: 'app-perfil-instructor',
   imports: [ReactiveFormsModule],
   templateUrl: './perfil-instructor.component.html',
   styleUrl: './perfil-instructor.component.css'
 })
-export class PerfilInstructorComponent  implements OnInit{
+export class PerfilInstructorComponent implements OnInit {
   perfilForm!: FormGroup;
-  constructor(private fb: FormBuilder, private InstructorServiceService:InstructorServicesServiceService) {}
+
+  constructor(private fb: FormBuilder, private instructorService: InstructorServicesServiceService) {}
+
   ngOnInit(): void {
     this.perfilForm = this.fb.group({
       curp: ['', Validators.required],
@@ -28,7 +29,7 @@ export class PerfilInstructorComponent  implements OnInit{
 
     if (!usuarioId) return;
 
-    this.InstructorServiceService.actualizarPerfil(Number(usuarioId), this.perfilForm.value)
+    this.instructorService.actualizarPerfil(Number(usuarioId), this.perfilForm.value)
       .subscribe({
         next: (res) => alert('Perfil actualizado correctamente'),
         error: (err) => console.error('Error al actualizar perfil:', err)

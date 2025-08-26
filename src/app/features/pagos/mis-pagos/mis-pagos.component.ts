@@ -125,8 +125,5 @@ export class MisPagosComponent implements OnInit {
     });
   }
 
-  cerrarSesion() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']); // o '/' si prefieres ir al home
-  }
+
 }

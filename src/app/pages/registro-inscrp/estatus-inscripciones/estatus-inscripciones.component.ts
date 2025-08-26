@@ -11,7 +11,7 @@ import { InscripcionService, Inscripcion } from '../../../services/inscripcion.s
   selector: 'app-estatus-inscripciones',
   imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule],
   templateUrl: './estatus-inscripciones.component.html',
-  styleUrl: './estatus-inscripciones.component.css'
+  styleUrls: ['./estatus-inscripciones.component.css']
 })
 export class EstatusInscripcionesComponent implements OnInit {
   loading = false;
@@ -53,15 +53,5 @@ export class EstatusInscripcionesComponent implements OnInit {
 
   irPagos() { this.router.navigate(['/mis-pagos']); }
 
-  confirmarCerrarSesion(): void {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      localStorage.removeItem('usuario');
-      localStorage.removeItem('token');
-      this.router.navigate(['/']);
-    }
-  }
-  logout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/home']);
-  }
+
 }

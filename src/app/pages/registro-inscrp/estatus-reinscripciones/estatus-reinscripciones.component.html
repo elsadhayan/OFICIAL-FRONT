@@ -1,12 +1,12 @@
 <div class="estatus-container">
   <div class="tarjeta">
-    <h2 class="titulo">Status de <b>reinscripción</b></h2>
+    <h2 class="titulo">Status de reinscripción</h2>
 
     <p>
       ¡Gracias por tu interés en la <strong><em>Casa de la Cultura Huitztli</em></strong>!
     </p>
     <p>
-      Estás a un paso de completar la <em><strong>reinscripción</strong></em> a tu taller.
+      Estás a un paso de completar el registro de tu <em><strong>reinscripción</strong></em> en alguno de nuestros talleres.
     </p>
     <p>Pronto un administrador revisará tu solicitud.</p>
 
@@ -15,21 +15,26 @@
 
     <!-- Contenido dinámico -->
     <ng-container *ngIf="!loading">
-      <ng-container *ngIf="ultima; else sinDatos">
+      <!-- Con datos -->
+      <ng-container *ngIf="ultima as insc; else sinDatos">
         <p class="estado-texto"><strong>Estado</strong></p>
-        <div [ngClass]="estadoClase(ultima?.estado)">
-          {{ estadoTexto(ultima?.estado) }}
+        <div class="estado-chip" [ngClass]="estadoClase(insc.estado)">
+          {{ estadoTexto(insc.estado) }}
         </div>
 
         <div class="detalle">
-          <div><b>Taller:</b> {{ ultima?.taller || '—' }}</div>
-          <div><b>Fecha:</b> {{ ultima?.fecha_inscripcion | date:'mediumDate' }}</div>
+          <div><b>Taller:</b> {{ insc.taller || '—' }}</div>
+          <div>
+            <b>Fecha:</b>
+            {{ insc.fecha_inscripcion ? (insc.fecha_inscripcion | date:'mediumDate') : '—' }}
+          </div>
         </div>
       </ng-container>
 
+      <!-- Sin datos -->
       <ng-template #sinDatos>
         <p class="estado-texto"><strong>Estado</strong></p>
-        <div class="estado-chip pendiente">NO HAY SOLICITUDES DE REINSCRIPCIÓN</div>
+        <div class="estado-chip pendiente">NO HAY SOLICITUDES</div>
       </ng-template>
     </ng-container>
 
@@ -37,22 +42,5 @@
       <button routerLink="/mis-pagos" class="btn btn-lg btn-pagos">Ver mis pagos</button>
       <button class="btn btn-lg" type="button" (click)="cargar()">Refrescar</button>
     </div>
-  </div>
-
-  <!-- Histórico opcional -->
-  <div class="historial" *ngIf="reinscripciones.length > 1">
-    <h3>Historial</h3>
-    <table>
-      <thead>
-        <tr><th>Fecha</th><th>Taller</th><th>Estado</th></tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let i of reinscripciones">
-          <td>{{ i.fecha_inscripcion | date:'mediumDate' }}</td>
-          <td>{{ i.taller || '—' }}</td>
-          <td><span [ngClass]="estadoClase(i.estado)">{{ estadoTexto(i.estado) }}</span></td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>

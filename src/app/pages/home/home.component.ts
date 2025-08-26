@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { MatCardModule } from '@angular/material/card';
-import { RouterLink } from '@angular/router';
+
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [CommonModule, SlickCarouselModule,MatCardModule,RouterLink],
+  imports: [CommonModule, SlickCarouselModule,MatCardModule,],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

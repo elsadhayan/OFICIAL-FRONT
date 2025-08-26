@@ -40,14 +40,7 @@ export class InscripcionComponent implements OnInit, CanExit {
   }
 
    // ---- NO borres el token aquí, solo pregunta:
-  canDeactivate(): boolean {
-    if (this.saltarseGuard) return true;  // deja salir si ya se envió
-    return this.confirmarSalida();
-  }
 
-  confirmarSalida(): boolean {
-    return window.confirm('⚠️ ¿Estás segura(o) de salir de este apartado?');
-  }
   inscripcionForm: FormGroup;
   edad: number[] = Array.from({ length: 86 }, (_, i) => i + 5);
   tipo_sangre: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];

@@ -18,13 +18,17 @@
       INSCRIPCIONES <mat-icon>expand_more</mat-icon>
     </button>
 
-    <a mat-button routerLink="/registro" routerLinkActive="activo-link">CREAR CUENTA</a>
-    <a mat-button routerLink="/login" routerLinkActive="activo-link">INICIAR SESIÓN</a>
+    <!-- Mostrar SOLO si NO hay sesión -->
+    <a *ngIf="!isLoggedIn()" mat-button routerLink="/registro" routerLinkActive="activo-link">CREAR CUENTA</a>
+    <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" routerLinkActive="activo-link">INICIAR SESIÓN</a>
 
-    <!-- MIS PAGOS (solo logeado) -->
+    <!-- Mostrar SOLO si SÍ hay sesión -->
     <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-pagos" routerLinkActive="activo-link">
       MIS PAGOS
     </a>
+    <button *ngIf="isLoggedIn()" mat-raised-button color="warn" class="logout-desktop" (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon> CERRAR SESIÓN
+    </button>
   </div>
 
   <mat-icon class="icono-menu" (click)="toggleMenu()">menu</mat-icon>
@@ -43,11 +47,16 @@
   </button>
 
   <a mat-button routerLink="/nosotros" (click)="toggleMenu()">ACERCA DE NOSOTROS</a>
-  <a mat-button routerLink="/registro" (click)="toggleMenu()">CREAR CUENTA</a>
-  <a mat-button routerLink="/login" (click)="toggleMenu()">INICIAR SESIÓN</a>
 
-  <!-- MIS PAGOS (solo logeado) -->
+  <!-- Mostrar SOLO si NO hay sesión -->
+  <a *ngIf="!isLoggedIn()" mat-button routerLink="/registro" (click)="toggleMenu()">CREAR CUENTA</a>
+  <a *ngIf="!isLoggedIn()" mat-button routerLink="/login" (click)="toggleMenu()">INICIAR SESIÓN</a>
+
+  <!-- Mostrar SOLO si SÍ hay sesión -->
   <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-pagos" (click)="toggleMenu()">MIS PAGOS</a>
+  <button *ngIf="isLoggedIn()" mat-raised-button color="warn" class="logout-mobile" (click)="cerrarSesion()">
+    <mat-icon>logout</mat-icon> CERRAR SESIÓN
+  </button>
 </div>
 
 <!-- ============================= -->

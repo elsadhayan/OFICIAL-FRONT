@@ -10,6 +10,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 
+interface LoginResponse {
+  role?: string;
+  id?: string | number;
+  token?: string;
+  access_token?: string;
+  usuario?: { role?: string; id?: string | number };
+  user?: { role?: string; id?: string | number };
+  [key: string]: any;
+}
+
 @Component({
   standalone: true,
   selector: 'app-inicio-sesion',
@@ -19,10 +29,11 @@ import { AuthService } from '../../auth.service';
     MatButtonModule, MatSelectModule
   ],
   templateUrl: './inicio-sesion.component.html',
-  styleUrl: './inicio-sesion.component.css'
+  styleUrls: ['./inicio-sesion.component.css'] // ✅ plural y arreglo
 })
 export class InicioSesionComponent implements OnInit {
   loginForm: FormGroup;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -30,8 +41,8 @@ export class InicioSesionComponent implements OnInit {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      curp: ['', Validators.required],
-      contrasena: ['', Validators.required]
+      curp: ['', [Validators.required]],
+      contrasena: ['', [Validators.required]]
     });
   }
 
@@ -41,10 +52,32 @@ export class InicioSesionComponent implements OnInit {
       error: (err) => console.error('❌ No se pudo conectar con Laravel:', err)
     });
 
-    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
-    const id = localStorage.getItem('usuario_id');
-    console.log('📌 Usuario logeado:', usuario);
-    console.log('📌 ID del usuario:', id);
+    try {
+      const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+      const id = localStorage.getItem('usuario_id');
+      console.log('📌 Usuario logeado:', usuario);
+      console.log('📌 ID del usuario:', id);
+    } catch {
+      console.warn('No se pudo leer "usuario" de localStorage.');
+    }
+  }
+
+  private extraerRole(res: LoginResponse): string {
+    return (
+      res.role ??
+      res.usuario?.role ??
+      res.user?.role ??
+      ''
+    ).toString().trim().toLowerCase();
+  }
+
+  private extraerId(res: LoginResponse): string {
+    const id = (res.id ?? res.usuario?.id ?? res.user?.id ?? '').toString().trim();
+    return id;
+  }
+
+  private extraerToken(res: LoginResponse): string {
+    return (res.access_token ?? res.token ?? '').toString().trim();
   }
 
   onLogin(): void {
@@ -54,27 +87,24 @@ export class InicioSesionComponent implements OnInit {
     const { curp, contrasena } = this.loginForm.value;
 
     this.authService.login({
-      curp: String(curp).toUpperCase(),
+      curp: String(curp || '').toUpperCase(),
       contrasena
     }).subscribe({
-      next: (res) => {
+      next: (res: LoginResponse) => {
+        alert('✅ Inicio de sesión correctamente');
 
-        alert(' ✅Inicio de sesion correctamente ');
-        // Normaliza posibles formas de respuesta del backend
-        const role = (res.role ?? res.usuario?.role ?? res.user?.role ?? '')
-          .toString().trim().toLowerCase();
-        const id   = (res.id ?? res.usuario?.id ?? res.user?.id ?? '').toString();
-        const token = (res.access_token ?? res.token ?? '');
+        const role  = this.extraerRole(res);
+        const id    = this.extraerId(res);
+        const token = this.extraerToken(res);
 
-        // Guarda lo mínimo
         if (token) localStorage.setItem('token', token);
         localStorage.setItem('usuario', JSON.stringify(res));
         if (id) localStorage.setItem('usuario_id', id);
 
-        // Redirección por rol (solo te afecta login)
+        // Redirección por rol
         switch (role) {
           case 'administrador':
-            this.router.navigate(['/admin/gestionar-talleres']); // <- página de Juan
+            this.router.navigate(['/admin/gestionar-talleres']);
             break;
           case 'director':
             this.router.navigate(['/director/gestion']);
@@ -83,22 +113,21 @@ export class InicioSesionComponent implements OnInit {
           case 'instructor':
             this.router.navigate(['/instructor']);
             break;
-          default: // usuario u otro
+          default:
             this.router.navigate(['/home']);
             break;
         }
       },
-
       error: (err) => {
-        console.error(err);
+        console.error('❌ Error en login:', err);
         alert('Credenciales inválidas');
       }
     });
   }
 
-  probarConexion() {
+  probarConexion(): void {
     this.authService.pingLaravel().subscribe({
-      next: (res: any) => alert('✔ Laravel dice: ' + (res.message ?? 'ok')),
+      next: (res: any) => alert('✔ Laravel dice: ' + (res?.message ?? 'ok')),
       error: () => alert('❌ Laravel no responde')
     });
   }

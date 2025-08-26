@@ -10,15 +10,22 @@
 
 <table class="table table-striped" *ngIf="!loading && alumnos && alumnos.length > 0">
   <thead>
+
     <tr>
+      <th>id</th>
+
       <th>Nombre Completo</th>
       <th>Edad</th>
+      <th>telefono</th>
+
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let alumno of alumnos">
+      <td>{{alumno.id}}</td>
       <td>{{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}</td>
       <td>{{ alumno.edad }}</td>
+      <td>{{alumno.numero_telefono}}</td>
     </tr>
   </tbody>
 </table>

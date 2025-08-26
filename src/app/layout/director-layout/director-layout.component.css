@@ -1,0 +1,56 @@
+.instructor-toolbar{
+   background-color: #D9D9D9; /* Fondo cálido que armoniza con #CBBF9E */
+  min-height: 100vh;
+}
+.instructor-toolbar .navbar{
+   background-color: #FFFFFF; /* Fondo cálido que armoniza con #CBBF9E */
+
+}
+
+#wrapper {
+  min-height: 100vh;
+}
+
+#sidebar-wrapper {
+
+  width: 250px;
+}
+
+.active {
+  background-color: #CBBF9E;
+  font-weight: bold;
+}
+a.active {
+  font-weight: bold;
+  background-color: #CBBF9E;
+  padding: 5px;
+  border-radius: 4px;
+}
+.sidebar-btn {
+  border-width: 2px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.sidebar-btn:hover,
+.sidebar-btn.active,
+.sidebar-btn.router-link-active {
+  background-color: #CBBF9E;
+  color: white !important;
+  border-color: #CBBF9E;
+}
+.dt{
+  background-color: #303E2D;
+}
+.navbar{
+  background-color: #e9ecef;
+}
+.custom-menu-btn {
+  background-color: #CBBF9E; /* morado */
+  color: #ffffff;
+  border: 1px solid #CBBF9E;
+}
+
+.custom-menu-btn:hover {
+  background-color: #CBBF9E;
+}

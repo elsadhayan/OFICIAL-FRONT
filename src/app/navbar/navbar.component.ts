@@ -6,45 +6,49 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterModule,
-    CommonModule,
-    MatMenuModule,
-    MatDividerModule
-  ],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, CommonModule, MatMenuModule, MatDividerModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
   menuActivo = false;
   mostrarNavbar = true;
+
   private rutasOcultas = ['/admin', '/instructor', '/director'];
 
   constructor(private router: Router) {
+    // Mostrar/ocultar navbar según ruta
     this.actualizarVisibilidad(this.router.url);
 
-    this.router.events.subscribe(evt => {
-      if (evt instanceof NavigationEnd) {
-        this.actualizarVisibilidad(evt.urlAfterRedirects || evt.url);
-      }
-    });
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((e: any) => {
+        const url = e.urlAfterRedirects || e.url;
+        this.actualizarVisibilidad(url);
+        // 🔒 Cierra el menú móvil siempre que cambies de ruta
+        this.menuActivo = false;
+      });
   }
 
   private actualizarVisibilidad(url: string) {
-    this.mostrarNavbar = !this.rutasOcultas.some(base =>
-      url.startsWith(base) || url.includes(`${base}/`)
-    );
+    this.mostrarNavbar = !this.rutasOcultas.some(base => url.startsWith(base) || url.includes(`${base}/`));
   }
 
-  toggleMenu() {
-    this.menuActivo = !this.menuActivo;
+  toggleMenu() { this.menuActivo = !this.menuActivo; }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  cerrarSesion() {
+    localStorage.removeItem('token');
+    this.menuActivo = false; // por si estaba abierto
+    this.router.navigate(['/login']);
   }
 
   talleres = [
@@ -60,11 +64,6 @@ export class NavbarComponent {
   ];
 
   inscripciones = [
-
     { nombre: 'Periodo cuatrimestral', ruta: '/inscripciones/cuatrimestral', icono: 'event' },
   ];
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
 }

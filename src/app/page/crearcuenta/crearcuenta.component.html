@@ -12,9 +12,7 @@
       <mat-label class="campos">Tipo de usuario</mat-label>
       <mat-select formControlName="role">
         <mat-option value="Usuario">Usuario</mat-option>
-         <mat-option value="Director">Director</mat-option>
-          <mat-option value="Maestro">Instructor</mat-option>
-           <mat-option value="Administrador">Administrador</mat-option>
+
 
       </mat-select>
       <mat-error *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
@@ -63,7 +61,7 @@
 
       <p class="registro-link">
         ¿Ya tienes cuenta?
-        <a routerLink="login" >Iniciar sesión</a>
+        <a routerLink="/login" >Iniciar sesión</a>
       </p>
     </form>
   </div>

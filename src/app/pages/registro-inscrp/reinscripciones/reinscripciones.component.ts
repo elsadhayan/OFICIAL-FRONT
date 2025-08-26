@@ -19,7 +19,7 @@ import { RouterLink } from '@angular/router';
     MatSelectModule,
     MatButtonModule,
     InscripcionComponent,
-    RouterLink
+
 
   ],
   templateUrl: './reinscripciones.component.html',

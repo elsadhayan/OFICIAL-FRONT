@@ -1,0 +1,28 @@
+.footer {
+  background-color: #303E2D;   /* mismo verde del header */
+  color: #fff;
+  text-align: center;
+  padding: 14px 10px;
+}
+
+.footer-content { max-width: 1200px; margin: 0 auto; }
+
+.social {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.social-link svg {
+  width: 24px;
+  height: 24px;
+  fill: #CBBF9E;              /* dorado que ya usas */
+  transition: transform .15s ease, fill .15s ease;
+}
+
+.social-link:hover svg {
+  transform: translateY(-2px) scale(1.05);
+  fill: #ffffff;
+}
